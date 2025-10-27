@@ -1,137 +1,105 @@
-<!DOCTYPE html>
-<html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tambah Pengguna - Admin</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              mint: {
-                DEFAULT: "#A5F3DC",
-                dark: "#7BD8BE",
-                light: "#D2FFF1",
-              },
-            },
-            fontFamily: {
-              sans: ['"Poppins"', "ui-sans-serif", "system-ui"],
-            },
-          },
-        },
-      };
-    </script>
-  </head>
-  <body class="bg-gray-50 font-sans">
-    <!-- Sidebar -->
-    <aside id="sidebar" class="fixed top-0 left-0 w-64 h-full bg-white border-r shadow-lg transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out z-50">
-      <div class="p-4 flex justify-between items-center border-b">
-        <h1 class="text-lg font-bold text-gray-700">Admin Panel</h1>
-        <button id="closeSidebar" class="md:hidden text-gray-500 hover:text-gray-700">✕</button>
-      </div>
-      <nav class="p-4 space-y-2">
-        <a href="dashboard-admin.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">🏠 Dashboard</a>
-        <a href="data-kampus.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">🏫 Data Kampus</a>
-        <a href="data-mahasiswa.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">🎓 Data Mahasiswa</a>
-        <a href="data-dosen.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">👨‍🏫 Data Dosen</a>
-        <a href="data-mata-kuliah.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">📘 Data Mata Kuliah</a>
-        <a href="data-kelas.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">🏷️ Data Kelas</a>
-        <a href="data-jadwal.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">🗓️ Data Jadwal</a>
-        <a href="data-pengguna.html" class="block py-2 px-3 rounded bg-mint text-gray-800 font-semibold">👥 Data Pengguna</a>
-        <a href="rekap-presensi.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">📊 Rekap Presensi</a>
-      </nav>
-    </aside>
+@extends('layouts.main')
 
-    <div id="overlay" class="fixed inset-0 bg-black opacity-30 hidden z-40"></div>
+@section('title', 'Admin — Tambah Pengguna')
+@section('page-title', 'Tambah Pengguna')
 
-    <div class="md:ml-64 min-h-screen flex flex-col">
-      <header class="flex items-center justify-between bg-white border-b px-4 py-3 shadow-sm">
-        <div class="flex items-center space-x-3">
-          <button id="openSidebar" class="md:hidden text-gray-600 text-2xl">☰</button>
-          <h2 class="text-lg font-semibold text-gray-700">Tambah Pengguna</h2>
-        </div>
-  <a href="profil-admin.html" class="text-gray-600 font-medium">👤 Admin</a>
-      </header>
-
-      <main class="flex-1 p-6">
-        <div class="bg-white p-6 rounded-xl shadow-md max-w-3xl mx-auto">
-          <h3 class="text-lg font-semibold text-gray-700 mb-5">Form Tambah Pengguna</h3>
-
-          <form class="bg-white p-6 rounded-xl shadow-md border border-gray-100 max-w-2xl mx-auto space-y-5" enctype="multipart/form-data">
-            <div>
-              <label class="block text-gray-700 font-medium mb-2">Nama</label>
-              <input type="text" placeholder="Nama lengkap" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-mint" />
+@section('content')
+      <main class="flex-1">
+        <div class="max-w-4xl mx-auto">
+          <form class="space-y-6" enctype="multipart/form-data">
+            <!-- Form Section -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="px-6 py-4 bg-mint-light border-b">
+                    <h3 class="font-semibold text-gray-800">Form Tambah Pengguna</h3>
+                </div>
+                <div class="p-6 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
+                            <input type="text" placeholder="Nama lengkap" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-accent focus:ring-accent" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">NIM/NIDN</label>
+                            <input type="text" placeholder="Nama lengkap" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-accent focus:ring-accent" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <input type="email" placeholder="user@kampus.test" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-accent focus:ring-accent" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                            <input type="password" placeholder="Password" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-accent focus:ring-accent" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Role</label>
+                            <select class="w-full rounded-lg border-gray-300 shadow-sm focus:border-accent focus:ring-accent">
+                                <option value="">-- Pilih Role --</option>
+                                <option value="admin">admin</option>
+                                <option value="dosen">dosen</option>
+                                <option value="mahasiswa">mahasiswa</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">No HP</label>
+                            <input type="tel" placeholder="0812xxxxxxx" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-accent focus:ring-accent" />
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Alamat</label>
+                            <textarea rows="3" placeholder="Alamat lengkap" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-accent focus:ring-accent"></textarea>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div>
-              <label class="block text-gray-700 font-medium mb-2">Email</label>
-              <input type="email" placeholder="user@kampus.test" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-mint" />
+            <!-- Photo Upload Section -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="px-6 py-4 bg-mint-light border-b">
+                    <h3 class="font-semibold text-gray-800">Foto Profil (Opsional)</h3>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center space-x-6">
+                        <div class="shrink-0">
+                            <img id="avatarPreview" class="h-32 w-32 object-cover rounded-full" src="https://ui-avatars.com/api/?name=User&background=22c55e&color=fff&size=128" alt="Profile photo preview" />
+                        </div>
+                        <label class="block">
+                            <span class="sr-only">Choose profile photo</span>
+                            <input type="file" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-mint file:text-accent hover:file:bg-mint-light" />
+                        </label>
+                    </div>
+                </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="block text-gray-700 font-medium mb-2">Password</label>
-                <input type="password" placeholder="Password" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-mint" />
-              </div>
-
-              <div>
-                <label class="block text-gray-700 font-medium mb-2">Role</label>
-                <select class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-mint">
-                  <option value="">-- Pilih Role --</option>
-                  <option value="admin">admin</option>
-                  <option value="dosen">dosen</option>
-                  <option value="mahasiswa">mahasiswa</option>
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-gray-700 font-medium mb-2">No HP</label>
-              <input type="tel" placeholder="0812xxxxxxx" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-mint" />
-            </div>
-
-            <div>
-              <label class="block text-gray-700 font-medium mb-2">Alamat</label>
-              <textarea rows="3" placeholder="Alamat lengkap" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-mint"></textarea>
-            </div>
-
-            <div>
-              <label class="block text-gray-700 font-medium mb-2">Foto (opsional)</label>
-              <input type="file" accept="image/*" class="w-full" />
-            </div>
-
+            <!-- Action Buttons -->
             <div class="flex justify-end pt-4">
               <a href="data-pengguna.html" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium shadow mr-2">Batal</a>
-              <button type="submit" class="bg-mint hover:bg-mint-dark text-gray-800 px-6 py-2 rounded-lg font-medium shadow">Simpan</button>
+              <button type="submit" class="px-6 py-2.5 rounded-lg bg-accent text-white hover:bg-accent/90 transition-colors">Simpan</button>
             </div>
           </form>
         </div>
       </main>
-    </div>
+@endsection
 
-    <script>
-      const sidebar = document.getElementById("sidebar");
-      const overlay = document.getElementById("overlay");
-      const openSidebar = document.getElementById("openSidebar");
-      const closeSidebar = document.getElementById("closeSidebar");
+@push('scripts')
+<script>
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  const openSidebar = document.getElementById("openSidebar");
+  const closeSidebar = document.getElementById("closeSidebar");
 
-      openSidebar.addEventListener("click", () => {
-        sidebar.classList.remove("-translate-x-full");
-        overlay.classList.remove("hidden");
-      });
+  openSidebar.addEventListener("click", () => {
+    sidebar.classList.remove("-translate-x-full");
+    overlay.classList.remove("hidden");
+  });
 
-      closeSidebar.addEventListener("click", () => {
-        sidebar.classList.add("-translate-x-full");
-        overlay.classList.add("hidden");
-      });
+  closeSidebar.addEventListener("click", () => {
+    sidebar.classList.add("-translate-x-full");
+    overlay.classList.add("hidden");
+  });
 
-      overlay.addEventListener("click", () => {
-        sidebar.classList.add("-translate-x-full");
-        overlay.classList.add("hidden");
-      });
-      
-    </script>
-  </body>
-</html>
+  overlay.addEventListener("click", () => {
+    sidebar.classList.add("-translate-x-full");
+    overlay.classList.add("hidden");
+  });
+</script>
+@endpush

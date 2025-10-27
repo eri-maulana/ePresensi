@@ -1,368 +1,145 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Admin</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#D8F3DC',
-            accent: '#40916C',
-            sidebar: '#E9F7EF',
-            textdark: '#1B4332'
-          },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
-</head>
-<body class="font-sans bg-[#F8FCFA] text-gray-800">
-  <!-- Sidebar Overlay -->
-  <!-- Sidebar -->
-  <aside id="sidebar"
-    class="fixed top-0 left-0 w-64 h-full bg-white border-r shadow-lg transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out z-50">
-    <div class="p-4 flex justify-between items-center border-b">
-      <h1 class="text-lg font-bold text-gray-700">Admin Panel</h1>
-      <button id="closeSidebar" class="md:hidden text-gray-500 hover:text-gray-700">
-        ✕
-      </button>
-    </div>
-    <nav class="p-4 space-y-2">
-      <a href="dashboard-admin.html" class="block py-2 px-3 rounded bg-mint text-gray-800 font-semibold active">🏠 Dashboard</a>
-      <a href="data-kampus.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">🏫 Data Kampus</a>
-      <a href="data-mahasiswa.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">🎓 Data Mahasiswa</a>
-      <a href="data-dosen.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">👨‍🏫 Data Dosen</a>
-      <a href="data-mata-kuliah.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">📘 Data Mata Kuliah</a>
-      <a href="data-kelas.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">🏷️ Data Kelas</a>
-      <a href="data-jadwal.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">🗓️ Data Jadwal</a>
-      <a href="data-user.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">👥 Data User</a>
-      <a href="rekap-presensi.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">📊 Rekap Presensi</a>
-    </nav>
-  </aside>
+@extends('layouts.main')
 
-  <!-- Overlay for mobile -->
-  <div id="overlay" class="fixed inset-0 bg-black opacity-30 hidden z-40"></div>
+@section('title', 'Dashboard Admin')
+@section('page-title', 'Dashboard Admin')
 
-  <!-- Main Content -->
-  <div class="md:ml-64 transition-all duration-300">
-    <header class="flex justify-between items-center bg-white shadow-sm px-6 py-4">
-      <div class="flex items-center gap-3">
-        <button id="hamburger" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-               viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </button>
-        <h1 class="text-lg font-semibold text-gray-700">Dashboard Admin</h1>
-      </div>
-      <div class="text-sm text-gray-500 flex items-center gap-4">
-        <span>25/10/2025, 11.58.11</span>
-        <button class="bg-accent text-white px-3 py-1 rounded-md hover:bg-accent/90">Logout</button>
-      </div>
-    </header>
-
-    <main class="p-6 space-y-6">
-      <!-- Quick Actions -->
-      <div class="flex flex-wrap gap-4 mb-2">
-        <button class="flex items-center gap-2 bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent/90 shadow-sm">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-          </svg>
-          Tambah Jadwal
-        </button>
-        <button class="flex items-center gap-2 bg-white text-accent border border-accent px-4 py-2 rounded-lg hover:bg-mint shadow-sm">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-          </svg>
-          Generate Laporan
-        </button>
-      </div>
-
-      <!-- Overview Statistics -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="bg-white rounded-xl p-4 shadow">
-          <div class="flex items-center gap-3">
-            <div class="bg-mint p-3 rounded-lg">
-              <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-              </svg>
-            </div>
-            <div>
-              <p class="text-gray-500 text-sm">Total Mahasiswa</p>
-              <h2 class="text-2xl font-bold mt-1">2,560</h2>
-            </div>
-          </div>
-          <div class="mt-2 text-sm text-green-600">
-            <span class="flex items-center gap-1">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
-              </svg>
-              +12 hari ini
-            </span>
-          </div>
-        </div>
-        <div class="bg-white rounded-xl p-4 shadow">
-          <div class="flex items-center gap-3">
-            <div class="bg-mint p-3 rounded-lg">
-              <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-              </svg>
-            </div>
-            <div>
-              <p class="text-gray-500 text-sm">Total Kelas Aktif</p>
-              <h2 class="text-2xl font-bold mt-1">86</h2>
-            </div>
-          </div>
-          <div class="mt-2 text-sm text-blue-600">
-            <span class="flex items-center gap-1">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
-              </svg>
-              8 sedang berlangsung
-            </span>
-          </div>
-        </div>
-        <div class="bg-white rounded-xl p-4 shadow">
-          <div class="flex items-center gap-3">
-            <div class="bg-mint p-3 rounded-lg">
-              <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-              </svg>
-            </div>
-            <div>
-              <p class="text-gray-500 text-sm">Total Dosen</p>
-              <h2 class="text-2xl font-bold mt-1">124</h2>
-            </div>
-          </div>
-          <div class="mt-2 text-sm text-blue-600">
-            <span class="flex items-center gap-1">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
-              </svg>
-              5 dosen baru
-            </span>
-          </div>
-        </div>
-        <div class="bg-white rounded-xl p-4 shadow">
-          <div class="flex items-center gap-3">
-            <div class="bg-mint p-3 rounded-lg">
-              <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-              </svg>
-            </div>
-            <div>
-              <p class="text-gray-500 text-sm">Total Mata Kuliah</p>
-              <h2 class="text-2xl font-bold mt-1">48</h2>
-            </div>
-          </div>
-          <div class="mt-2 text-sm text-yellow-600">
-            <span class="flex items-center gap-1">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-              12 aktif minggu ini
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Grafik Kehadiran -->
-        <div class="bg-white rounded-xl p-4 shadow">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="font-semibold text-gray-700">Tren Kehadiran</h3>
-            <select class="text-sm border rounded-lg px-2 py-1">
-              <option>7 Hari Terakhir</option>
-              <option>30 Hari Terakhir</option>
-              <option>3 Bulan Terakhir</option>
-            </select>
-          </div>
-          <canvas id="attendanceChart" height="200"></canvas>
-        </div>
-
-        <!-- Kelas Terbaru -->
-        <div class="bg-white rounded-xl p-4 shadow">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="font-semibold text-gray-700">Kelas Terbaru Ditambahkan</h3>
-            <a href="data-kelas.html" class="text-sm text-accent hover:underline">Lihat Semua</a>
-          </div>
-          <div class="space-y-3">
-            <div class="p-3 bg-gray-50 rounded-lg">
-              <div class="flex justify-between items-start">
-                <div>
-                  <h4 class="font-medium text-gray-800">Pemrograman Web</h4>
-                  <p class="text-sm text-gray-600 mt-1">TI-2A - Semester Ganjil 2025/2026</p>
-                </div>
-                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Aktif</span>
-              </div>
-              <div class="flex items-center gap-4 mt-2 text-sm text-gray-500">
-                <span class="flex items-center gap-1">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                  </svg>
-                  Dr. Agus
-                </span>
-                <span class="flex items-center gap-1">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-                  </svg>
-                  40 Mahasiswa
-                </span>
-              </div>
-            </div>
-            <div class="p-3 bg-gray-50 rounded-lg">
-              <div class="flex justify-between items-start">
-                <div>
-                  <h4 class="font-medium text-gray-800">Basis Data Lanjut</h4>
-                  <p class="text-sm text-gray-600 mt-1">TI-3B - Semester Ganjil 2025/2026</p>
-                </div>
-                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Aktif</span>
-              </div>
-              <div class="flex items-center gap-4 mt-2 text-sm text-gray-500">
-                <span class="flex items-center gap-1">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                  </svg>
-                  Dr. Budi
-                </span>
-                <span class="flex items-center gap-1">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-                  </svg>
-                  35 Mahasiswa
-                </span>
-              </div>
-            </div>
-            <div class="p-3 bg-gray-50 rounded-lg">
-              <div class="flex justify-between items-start">
-                <div>
-                  <h4 class="font-medium text-gray-800">Jaringan Komputer</h4>
-                  <p class="text-sm text-gray-600 mt-1">TI-2C - Semester Ganjil 2025/2026</p>
-                </div>
-                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">Menunggu</span>
-              </div>
-              <div class="flex items-center gap-4 mt-2 text-sm text-gray-500">
-                <span class="flex items-center gap-1">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                  </svg>
-                  Dr. Citra
-                </span>
-                <span class="flex items-center gap-1">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-                  </svg>
-                  38 Mahasiswa
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Recent Activities & Alerts -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Recent Activities -->
-        <div class="bg-white rounded-xl p-4 shadow">
-          <h3 class="font-semibold text-gray-700 mb-4">Aktivitas Terbaru</h3>
-          <div class="space-y-4">
-            <div class="flex gap-3">
-              <div class="flex-none">
-                <span class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-blue-600">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                  </svg>
-                </span>
-              </div>
-              <div>
-                <p class="text-sm font-medium text-gray-900">Kelas Baru Ditambahkan</p>
-                <p class="text-sm text-gray-500">Pemrograman Web - TI-2A</p>
-                <p class="text-xs text-gray-400 mt-0.5">2 menit yang lalu</p>
-              </div>
-            </div>
-            <div class="flex gap-3">
-              <div class="flex-none">
-                <span class="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 text-green-600">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
-                </span>
-              </div>
-              <div>
-                <p class="text-sm font-medium text-gray-900">Backup Data Berhasil</p>
-                <p class="text-sm text-gray-500">Backup otomatis selesai</p>
-                <p class="text-xs text-gray-400 mt-0.5">15 menit yang lalu</p>
-              </div>
-            </div>
-            <div class="flex gap-3">
-              <div class="flex-none">
-                <span class="flex h-8 w-8 items-center justify-center rounded-full bg-yellow-100 text-yellow-600">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                  </svg>
-                </span>
-              </div>
-              <div>
-                <p class="text-sm font-medium text-gray-900">Storage Warning</p>
-                <p class="text-sm text-gray-500">Storage server hampir penuh (85%)</p>
-                <p class="text-xs text-gray-400 mt-0.5">1 jam yang lalu</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- System Alerts -->
-        <div class="bg-white rounded-xl p-4 shadow">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="font-semibold text-gray-700">Peringatan Sistem</h3>
-            <button class="text-sm text-accent hover:underline">Lihat Semua</button>
-          </div>
-          <div class="space-y-3">
-            <div class="flex items-center justify-between p-3 bg-yellow-50 text-yellow-800 rounded-lg">
-              <div class="flex items-center gap-3">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                </svg>
-                <span class="text-sm">3 kelas belum ada jadwalnya minggu depan</span>
-              </div>
-              <button class="text-xs font-medium hover:underline">Tindakan</button>
-            </div>
-            <div class="flex items-center justify-between p-3 bg-blue-50 text-blue-800 rounded-lg">
-              <div class="flex items-center gap-3">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <span class="text-sm">5 mahasiswa baru perlu verifikasi data</span>
-              </div>
-              <button class="text-xs font-medium hover:underline">Review</button>
-            </div>
-            <div class="flex items-center justify-between p-3 bg-red-50 text-red-800 rounded-lg">
-              <div class="flex items-center gap-3">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <span class="text-sm">Server backup terakhir > 24 jam</span>
-              </div>
-              <button class="text-xs font-medium hover:underline">Backup Now</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
+@section('content')
+  <!-- Quick Actions -->
+  <div class="flex flex-wrap gap-4 mb-2">
+    <button class="flex items-center bg-accent hover:bg-accent/90 text-white gap-2 px-4 py-2 rounded-lg  shadow-sm">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+      </svg>
+      Tambah Jadwal
+    </button>
+    <button class="flex items-center gap-2 bg-white text-accent border border-accent px-4 py-2 rounded-lg hover:bg-mint shadow-sm">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+      </svg>
+      Generate Laporan
+    </button>
   </div>
 
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    const ctx = document.getElementById('attendanceChart').getContext('2d');
+  <!-- Overview Statistics -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    @php
+      $cards = [
+        ['label' => 'Total Mahasiswa', 'iconColor' => 'text-accent', 'value' => '2,560', 'desc' => '+12 hari ini', 'descColor' => 'text-green-600'],
+        ['label' => 'Total Kelas Aktif', 'iconColor' => 'text-accent', 'value' => '86', 'desc' => '8 sedang berlangsung', 'descColor' => 'text-blue-600'],
+        ['label' => 'Total Dosen', 'iconColor' => 'text-accent', 'value' => '124', 'desc' => '5 dosen baru', 'descColor' => 'text-blue-600'],
+        ['label' => 'Total Mata Kuliah', 'iconColor' => 'text-accent', 'value' => '48', 'desc' => '12 aktif minggu ini', 'descColor' => 'text-yellow-600'],
+      ];
+    @endphp
+
+    @foreach ($cards as $c)
+    <div class="bg-white rounded-xl p-4 shadow">
+      <div class="flex items-center gap-3">
+        <div class="bg-mint p-3 rounded-lg">
+          <svg class="w-6 h-6 {{ $c['iconColor'] }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-gray-500 text-sm">{{ $c['label'] }}</p>
+          <h2 class="text-2xl font-bold mt-1">{{ $c['value'] }}</h2>
+        </div>
+      </div>
+      <div class="mt-2 text-sm {{ $c['descColor'] }}">
+        <span class="flex items-center gap-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+          </svg>
+          {{ $c['desc'] }}
+        </span>
+      </div>
+    </div>
+    @endforeach
+  </div>
+
+  <!-- Grafik & Kelas -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+    <div class="bg-white rounded-xl p-4 shadow">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-semibold text-gray-700">Tren Kehadiran</h3>
+        <select class="text-sm border rounded-lg px-2 py-1">
+          <option>7 Hari Terakhir</option>
+          <option>30 Hari Terakhir</option>
+          <option>3 Bulan Terakhir</option>
+        </select>
+      </div>
+      <canvas id="attendanceChart" height="200"></canvas>
+    </div>
+
+    <div class="bg-white rounded-xl p-4 shadow">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-semibold text-gray-700">Kelas Terbaru Ditambahkan</h3>
+        <a href="#" class="text-sm text-accent hover:underline">Lihat Semua</a>
+      </div>
+      {{-- Data kelas bisa diganti nanti dari database --}}
+      <div class="space-y-3">
+        @foreach ([['Pemrograman Web','TI-2A','Dr. Agus','40 Mahasiswa','Aktif'],
+                   ['Basis Data Lanjut','TI-3B','Dr. Budi','35 Mahasiswa','Aktif'],
+                   ['Jaringan Komputer','TI-2C','Dr. Citra','38 Mahasiswa','Menunggu']] as $k)
+        <div class="p-3 bg-gray-50 rounded-lg">
+          <div class="flex justify-between items-start">
+            <div>
+              <h4 class="font-medium text-gray-800">{{ $k[0] }}</h4>
+              <p class="text-sm text-gray-600 mt-1">{{ $k[1] }} - Semester Ganjil 2025/2026</p>
+            </div>
+            <span class="px-2 py-1 bg-{{ $k[4]=='Aktif'?'green':'yellow' }}-100 text-{{ $k[4]=='Aktif'?'green':'yellow' }}-800 text-xs rounded-full">
+              {{ $k[4] }}
+            </span>
+          </div>
+          <div class="flex items-center gap-4 mt-2 text-sm text-gray-500">
+            <span class="flex items-center gap-1">👨‍🏫 {{ $k[2] }}</span>
+            <span class="flex items-center gap-1">🎓 {{ $k[3] }}</span>
+          </div>
+        </div>
+        @endforeach
+      </div>
+    </div>
+  </div>
+
+  <!-- Aktivitas & Peringatan -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+    <div class="bg-white rounded-xl p-4 shadow">
+      <h3 class="font-semibold text-gray-700 mb-4">Aktivitas Terbaru</h3>
+      <div class="space-y-4">
+        <div class="flex gap-3 items-start">
+          <div class="flex-none flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-900">Kelas Baru Ditambahkan</p>
+            <p class="text-sm text-gray-500">Pemrograman Web - TI-2A</p>
+            <p class="text-xs text-gray-400 mt-0.5">2 menit yang lalu</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl p-4 shadow">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-semibold text-gray-700">Peringatan Sistem</h3>
+        <button class="text-sm text-accent hover:underline">Lihat Semua</button>
+      </div>
+      <div class="space-y-3">
+        <div class="flex items-center justify-between p-3 bg-yellow-50 text-yellow-800 rounded-lg">
+          <span class="text-sm">3 kelas belum ada jadwalnya minggu depan</span>
+          <button class="text-xs font-medium hover:underline">Tindakan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+@endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('attendanceChart');
+  if (ctx) {
     new Chart(ctx, {
       type: 'bar',
       data: {
@@ -373,34 +150,8 @@
           backgroundColor: '#40916C'
         }]
       },
-      options: {
-        scales: {
-          y: { beginAtZero: true }
-        }
-      }
+      options: { scales: { y: { beginAtZero: true } } }
     });
-
-    // Sidebar toggle
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const hamburger = document.getElementById('hamburger');
-
-    hamburger.addEventListener('click', () => {
-      sidebar.classList.toggle('-translate-x-full');
-      overlay.classList.toggle('hidden');
-    });
-
-    overlay.addEventListener('click', () => {
-      sidebar.classList.add('-translate-x-full');
-      overlay.classList.add('hidden');
-    });
-
-    [overlay, closeSidebar].forEach(el => {
-            el.addEventListener('click', () => {
-                sidebar.classList.add('-translate-x-full');
-                overlay.classList.add('hidden');
-            });
-        });
-  </script>
-</body>
-</html>
+  }
+</script>
+@endpush

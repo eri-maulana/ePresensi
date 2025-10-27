@@ -1,73 +1,10 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Dosen</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#D8F3DC',
-            accent: '#40916C',
-            sidebar: '#E9F7EF',
-            textdark: '#1B4332',
-            mint: '#D8F3DC',
-            'mint-light': '#E9F7EF'
-          },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
-</head>
-<body class="font-sans bg-[#F8FCFA] text-gray-800">
-  <!-- Sidebar Overlay -->
-  <!-- Sidebar -->
-  <aside id="sidebar"
-    class="fixed top-0 left-0 w-64 h-full bg-white border-r shadow-lg transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out z-50">
-    <div class="p-4 flex justify-between items-center border-b">
-      <h1 class="text-lg font-bold text-gray-700">Panel Dosen</h1>
-      <button id="closeSidebar" class="md:hidden text-gray-500 hover:text-gray-700">
-        ✕
-      </button>
-    </div>
-    <nav class="p-4 space-y-2">
-      <a href="dashboard-dosen.html" class="block py-2 px-3 rounded bg-mint text-gray-800 font-semibold">🏠 Dashboard</a>
-      <a href="daftar-mahasiswa.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">👥 Daftar Mahasiswa</a>
-      <a href="jadwal-mengajar.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">📅 Jadwal Mengajar</a>
-      <a href="rekap-presensi.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">📊 Rekap Presensi</a>
-      <a href="profil-dosen.html" class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700">👤 Profil</a>
-    </nav>
-  </aside>
+@extends('layouts.main')
 
-  <!-- Overlay for mobile -->
-  <div id="overlay" class="fixed inset-0 bg-black opacity-30 hidden z-40"></div>
+@section('title', 'Dashboard Dosen')
+@section('page-title', 'Dashboard Dosen')
 
-  <!-- Main Content -->
-  <div class="md:ml-64 transition-all duration-300">
-    <header class="flex justify-between items-center bg-white shadow-sm px-6 py-4">
-      <div class="flex items-center gap-3">
-        <button id="hamburger" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-               viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </button>
-        <h1 class="text-lg font-semibold text-gray-700">Dashboard Dosen</h1>
-      </div>
-      <div class="text-sm text-gray-500 flex items-center gap-4">
-        <span id="currentTime">--:--:--</span>
-        <button class="bg-accent text-white px-3 py-1 rounded-md hover:bg-accent/90">Logout</button>
-      </div>
-    </header>
-
-    <main class="p-6 space-y-6">
+@section('content')
+  <main class="p-6 space-y-6">
       <!-- Quick Actions -->
       <div class="flex flex-wrap gap-4 mb-2">
         <button class="flex items-center gap-2 bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent/90 shadow-sm">
@@ -211,7 +148,7 @@
         </div>
       </div>
 
-      <!-- Mahasiswa Perlu Perhatian -->
+  <!-- Mahasiswa Perlu Perhatian -->
       <div class="bg-white rounded-xl p-4 shadow">
         <div class="flex justify-between items-center mb-4">
           <h3 class="font-semibold text-gray-700">Mahasiswa Perlu Perhatian</h3>
@@ -269,67 +206,46 @@
           </table>
         </div>
       </div>
-    </main>
-  </div>
+  </main>
+@endsection
 
-  <!-- Chart.js -->
+@push('scripts')
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // Update current time
+    // Update current time (layout header uses id 'current-time')
     function updateTime() {
       const now = new Date();
-      document.getElementById('currentTime').textContent = now.toLocaleString('id-ID', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      });
+      const el = document.getElementById('current-time');
+      if (el) el.textContent = now.toLocaleString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     }
     setInterval(updateTime, 1000);
     updateTime();
 
     // Initialize chart
-    const ctx = document.getElementById('attendanceChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum'],
-        datasets: [{
-          label: 'Kehadiran',
-          data: [90, 85, 80, 92, 88],
-          backgroundColor: '#40916C'
-        }]
-      },
-      options: {
-        scales: {
-          y: { 
-            beginAtZero: true,
-            max: 100
-          }
-        }
+    (function () {
+      const canvas = document.getElementById('attendanceChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum'],
+          datasets: [{ label: 'Kehadiran', data: [90, 85, 80, 92, 88], backgroundColor: '#40916C' }]
+        },
+        options: { scales: { y: { beginAtZero: true, max: 100 } } }
+      });
+    })();
+
+    // Sidebar toggle (layout-provided elements)
+    (function () {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      const openSidebar = document.getElementById('openSidebar') || document.getElementById('hamburger');
+      const closeSidebar = document.getElementById('closeSidebar');
+      if (openSidebar) {
+        openSidebar.addEventListener('click', () => { sidebar.classList.toggle('-translate-x-full'); overlay.classList.toggle('hidden'); });
       }
-    });
-
-    // Sidebar toggle
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const hamburger = document.getElementById('hamburger');
-
-    hamburger.addEventListener('click', () => {
-      sidebar.classList.toggle('-translate-x-full');
-      overlay.classList.toggle('hidden');
-    });
-
-    overlay.addEventListener('click', () => {
-      sidebar.classList.add('-translate-x-full');
-      overlay.classList.add('hidden');
-    });
-
-    [overlay, closeSidebar].forEach(el => {
-            el.addEventListener('click', () => {
-                sidebar.classList.add('-translate-x-full');
-                overlay.classList.add('hidden');
-            });
-        });
+      [overlay, closeSidebar].forEach(el => { if (!el) return; el.addEventListener('click', () => { sidebar.classList.add('-translate-x-full'); overlay.classList.add('hidden'); }); });
+    })();
   </script>
-</body>
-</html>
+@endpush
