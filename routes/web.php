@@ -1,41 +1,50 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DosenController;
+use App\Http\Controllers\MahasiswaController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Admin
-Route::view('/admin/dashboard', 'admin.dashboard-admin');
-Route::view('/admin/data-mahasiswa', 'admin.data-mahasiswa');
-Route::view('/admin/data-dosen', 'admin.data-dosen');
-Route::view('/admin/data-mata-kuliah', 'admin.data-mata-kuliah');
-Route::view('/admin/data-kelas', 'admin.data-kelas');
-Route::view('/admin/data-kampus', 'admin.data-kampus');
-Route::view('/admin/data-jadwal', 'admin.data-jadwal');
-Route::view('/admin/data-pengguna', 'admin.data-pengguna');
-Route::view('/admin/rekap-presensi', 'admin.rekap-presensi');
-Route::view('/admin/profil', 'admin.profil-admin');
-Route::view('/admin/edit', 'admin.edit-admin');
-Route::view('/admin/tambah-pengguna', 'admin.tambah-pengguna');
-Route::view('/admin/tambah-mata-kuliah', 'admin.tambah-mata-kuliah');
-Route::view('/admin/tambah-mahasiswa', 'admin.tambah-mahasiswa');
-Route::view('/admin/tambah-kelas', 'admin.tambah-kelas');
-Route::view('/admin/tambah-kampus', 'admin.tambah-kampus');
-Route::view('/admin/tambah-jadwal', 'admin.tambah-jadwal');
+// ===================== ADMIN =====================
+Route::prefix('admin')->controller(AdminController::class)->group(function () {
+    Route::get('/dashboard', 'dashboard')->name('admin.dashboard');
+    Route::get('/data-mahasiswa', 'dataMahasiswa')->name('admin.data-mahasiswa');
+    Route::get('/data-dosen', 'dataDosen')->name('admin.data-dosen');
+    Route::get('/data-mata-kuliah', 'dataMataKuliah')->name('admin.data-mata-kuliah');
+    Route::get('/data-kelas', 'dataKelas')->name('admin.data-kelas');
+    Route::get('/data-kampus', 'dataKampus')->name('admin.data-kampus');
+    Route::get('/data-jadwal', 'dataJadwal')->name('admin.data-jadwal');
+    Route::get('/data-pengguna', 'dataPengguna')->name('admin.data-pengguna');
+    Route::get('/rekap-presensi', 'rekapPresensi')->name('admin.rekap-presensi');
+    Route::get('/profil', 'profil')->name('admin.profil');
+    Route::get('/edit', 'edit')->name('admin.edit');
+    Route::get('/tambah-pengguna', 'tambahPengguna')->name('admin.tambah-pengguna');
+    Route::get('/tambah-mata-kuliah', 'tambahMataKuliah')->name('admin.tambah-mata-kuliah');
+    Route::get('/tambah-mahasiswa', 'tambahMahasiswa')->name('admin.tambah-mahasiswa');
+    Route::get('/tambah-kelas', 'tambahKelas')->name('admin.tambah-kelas');
+    Route::get('/tambah-kampus', 'tambahKampus')->name('admin.tambah-kampus');
+    Route::get('/tambah-jadwal', 'tambahJadwal')->name('admin.tambah-jadwal');
+});
 
-// Dosen
-Route::view('/dosen/dashboard', 'dosen.dashboard-dosen');
-Route::view('/dosen/jadwal-mengajar', 'dosen.jadwal-mengajar');
-Route::view('/dosen/daftar-mahasiswa', 'dosen.daftar-mahasiswa');
-Route::view('/dosen/rekap-presensi', 'dosen.rekap-presensi');
-Route::view('/dosen/profil', 'dosen.profil-dosen');
-Route::view('/dosen/edit', 'dosen.edit-profil-dosen');
+// ===================== DOSEN =====================
+Route::prefix('dosen')->controller(DosenController::class)->group(function () {
+    Route::get('/dashboard', 'dashboard')->name('dosen.dashboard');
+    Route::get('/jadwal-mengajar', 'jadwalMengajar')->name('dosen.jadwal-mengajar');
+    Route::get('/daftar-mahasiswa', 'daftarMahasiswa')->name('dosen.daftar-mahasiswa');
+    Route::get('/rekap-presensi', 'rekapPresensi')->name('dosen.rekap-presensi');
+    Route::get('/profil', 'profil')->name('dosen.profil-dosen');
+    Route::get('/edit', 'edit')->name('dosen.edit-profil');
+});
 
-// Mahasiswa
-Route::view('/mahasiswa/dashboard', 'mahasiswa.dashboard-mahasiswa');
-Route::view('/mahasiswa/presensi', 'mahasiswa.presensi');
-Route::view('/mahasiswa/riwayat-presensi', 'mahasiswa.riwayat-presensi');
-Route::view('/mahasiswa/profil', 'mahasiswa.profil-mahasiswa');
-Route::view('/mahasiswa/edit-profil', 'mahasiswa.edit-profil-mahasiswa');
+// ===================== MAHASISWA =====================
+Route::prefix('mahasiswa')->controller(MahasiswaController::class)->group(function () {
+    Route::get('/dashboard', 'dashboard')->name('mahasiswa.dashboard');
+    Route::get('/presensi', 'presensi')->name('mahasiswa.presensi');
+    Route::get('/riwayat-presensi', 'riwayatPresensi')->name('mahasiswa.riwayat-presensi');
+    Route::get('/profil', 'profil')->name('mahasiswa.profil-mahasiswa');
+    Route::get('/edit-profil', 'editProfil')->name('mahasiswa.edit-profil');
+});

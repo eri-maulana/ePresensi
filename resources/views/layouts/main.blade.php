@@ -28,8 +28,10 @@
 </head>
 
 <body class="font-sans bg-[#F8FCFA] text-gray-800">
-    {{-- Sidebar --}}
-    @include('partials.sidebar')
+    {{-- Sidebar berdasarkan role --}}
+    @includeWhen(isset($role) && $role === 'admin', 'partials.sidebar-admin')
+    @includeWhen(isset($role) && $role === 'dosen', 'partials.sidebar-dosen')
+    @includeWhen(isset($role) && $role === 'mahasiswa', 'partials.sidebar-mahasiswa')
 
     {{-- Overlay for mobile --}}
     <div id="overlay" class="fixed inset-0 bg-black opacity-30 hidden z-40"></div>
