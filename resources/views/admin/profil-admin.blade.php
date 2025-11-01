@@ -8,7 +8,7 @@
         <!-- Profile Header -->
         <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
             <div class="md:flex">
-                <div class="md:flex-shrink-0 p-6 flex justify-center items-center bg-mint-light">
+                <div class="md:flex-shrink-0 p-6 flex justify-center items-center ">
                     <img class="h-48 w-48 rounded-full object-cover border-4 border-white shadow-lg" src="https://ui-avatars.com/api/?name=Administrator&background=22c55e&color=fff&size=200" alt="Administrator">
                 </div>
                 <div class="p-6 md:flex-1">
@@ -17,7 +17,7 @@
                             <h2 class="text-2xl font-bold text-gray-900">Administrator</h2>
                             <p class="text-gray-600">Sistem Administrator</p>
                         </div>
-                        <a href="#" class="inline-flex items-center px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent/90 transition-colors">
+                        <a href="#" class="inline-flex items-center px-4 py-2 bg-mint text-white rounded-lg hover:bg-mint/90 transition-colors">
                             <i class="fas fa-edit mr-2"></i>
                             Edit Profil
                         </a>
@@ -59,10 +59,6 @@
             </div>
         </div>
 
-        <!-- Logout -->
-        <div class="flex justify-center mt-6">
-            <a href="#" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium shadow">Logout</a>
-        </div>
     </div>
 @endsection
 

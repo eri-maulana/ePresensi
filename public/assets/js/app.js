@@ -15,8 +15,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
     a.addEventListener('click', (e)=>{
       document.querySelectorAll('.nav a').forEach(x=>x.classList.remove('active'));
       a.classList.add('active');
-      // prevent navigation in mockup
-      e.preventDefault();
+      // Only prevent navigation for mock anchors (href '#' or empty) or when explicitly marked
+      const href = a.getAttribute('href') || '';
+      if (href.trim() === '' || href.trim() === '#' || a.dataset.mock === 'true') {
+        e.preventDefault();
+      }
     });
   });
 

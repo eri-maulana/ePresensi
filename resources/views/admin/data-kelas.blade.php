@@ -7,13 +7,13 @@
   <div class="bg-white p-6 rounded-xl shadow-md">
     <div class="flex justify-between items-center mb-6">
       <h3 class="text-lg font-semibold text-gray-700">Informasi Kelas</h3>
-      <a href="#" class="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-lg  shadow">Tambah Data Kelas</a>
+      <a href="#" class="bg-mint hover:bg-mint/90 text-white px-4 py-2 rounded-lg  shadow">Tambah Data Kelas</a>
     </div>
 
     <!-- Detail Table -->
     <div class="overflow-x-auto rounded-lg border border-gray-200">
       <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-mint">
+  <thead class="bg-mint-light">
           <tr class="text-gray-800">
             <th scope="col" class="px-6 py-3 text-left font-semibold whitespace-nowrap">#</th>
             <th scope="col" class="px-6 py-3 text-left font-semibold whitespace-nowrap">Nama Kelas</th>

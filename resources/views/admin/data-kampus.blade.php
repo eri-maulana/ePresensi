@@ -7,7 +7,7 @@
   <div class="bg-white p-6 rounded-xl shadow-md">
     <div class="flex justify-between items-center mb-6">
       <h3 class="text-lg font-semibold text-gray-700">Informasi Kampus</h3>
-      <a href="#" class="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-lg shadow">Ubah Data Kampus</a>
+      <a href="#" class="bg-mint  text-white px-4 py-2 rounded-lg shadow">Ubah Data Kampus</a>
     </div>
 
     <!-- Detail Table -->

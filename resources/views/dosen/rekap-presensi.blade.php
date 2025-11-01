@@ -58,17 +58,17 @@
                 <div class="p-6 border-b border-gray-200 flex justify-between items-center">
                     <h2 class="text-lg font-semibold text-gray-800">Daftar Kehadiran Mahasiswa</h2>
                     <div class="flex gap-3">
-                        <button class="px-4 py-2 text-sm bg-accent text-white rounded-lg hover:bg-accent/90">
+                        <button class="px-4 py-2 text-sm bg-mint text-white rounded-lg hover:bg-mint/90">
                             <i class="fas fa-download mr-2"></i>Export Excel
                         </button>
-                        <button class="px-4 py-2 text-sm bg-accent text-white rounded-lg hover:bg-accent/90">
+                        <button class="px-4 py-2 text-sm bg-mint text-white rounded-lg hover:bg-mint/90">
                             <i class="fas fa-print mr-2"></i>Cetak PDF
                         </button>
                     </div>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                        <thead class="bg-mint-light">
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NIM</th>
@@ -157,7 +157,7 @@
                                     <span class="sr-only">Previous</span>
                                     <i class="fas fa-chevron-left"></i>
                                 </a>
-                                <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-mint text-sm font-medium text-gray-700">1</a>
+                                <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">1</a>
                                 <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                                     <span class="sr-only">Next</span>
                                     <i class="fas fa-chevron-right"></i>

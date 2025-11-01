@@ -32,7 +32,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="flex items-center gap-2 bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent/90">
+                    <button class="flex items-center gap-2 bg-mint text-white px-4 py-2 rounded-lg hover:bg-mint/90">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                                   d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -65,7 +65,7 @@
             <div class="bg-white rounded-lg shadow overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                        <thead class="bg-mint-light">
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Mahasiswa
@@ -200,7 +200,7 @@
                                             <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
                                         </svg>
                                     </a>
-                                    <a href="#" aria-current="page" class="z-10 bg-mint border-accent text-accent relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                    <a href="#" aria-current="page" class="z-10 bg-white border-accent text-accent relative inline-flex items-center px-4 py-2 border text-sm font-medium">
                                         1
                                     </a>
                                     <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">

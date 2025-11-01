@@ -7,13 +7,13 @@
     <main class="p-6 space-y-6">
       <!-- Quick Actions -->
       <div class="flex flex-wrap gap-4 mb-2">
-        <button class="flex items-center gap-2 bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent/90 shadow-sm">
+  <button class="flex items-center gap-2 bg-mint text-white px-4 py-2 rounded-lg hover:bg-mint/90 shadow-sm">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
           </svg>
           Presensi Sekarang
         </button>
-        <button class="flex items-center gap-2 bg-white text-accent border border-accent px-4 py-2 rounded-lg hover:bg-mint shadow-sm">
+  <button class="flex items-center gap-2 bg-white text-accent border border-accent px-4 py-2 rounded-lg hover:bg-mint shadow-sm">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
           </svg>
@@ -158,7 +158,7 @@
         </div>
         <div class="overflow-x-auto">
           <table class="min-w-full">
-            <thead class="bg-gray-50">
+            <thead class="bg-mint-light">
               <tr>
                 <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Mata Kuliah</th>
                 <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Tanggal</th>

@@ -4,55 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'ePresensi')</title>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#D8F3DC',
-                        accent: '#40916C',
-                        sidebar: '#E9F7EF',
-                        textdark: '#1B4332'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
-    {{-- Tailwind / CSS --}}
-    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+    <title>{{ $title ?? 'ePresensi' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Legacy/mockup stylesheet (overrides Tailwind where needed) -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
 </head>
 
-<body class="font-sans bg-[#F8FCFA] text-gray-800">
-    {{-- Sidebar berdasarkan role --}}
-    @includeWhen(isset($role) && $role === 'admin', 'partials.sidebar-admin')
-    @includeWhen(isset($role) && $role === 'dosen', 'partials.sidebar-dosen')
-    @includeWhen(isset($role) && $role === 'mahasiswa', 'partials.sidebar-mahasiswa')
+<body class="bg-gray-100 text-gray-800">
+    <div class="app" style="max-width:100% !important; margin:0 !important; border-radius:0 !important;">
 
-    {{-- Overlay for mobile --}}
-    <div id="overlay" class="fixed inset-0 bg-black opacity-30 hidden z-40"></div>
+        {{-- Sidebar --}}
+        @if (Auth::user()->role === 'admin')
+            @include('partials.sidebar-admin')
+        @elseif(Auth::user()->role === 'dosen')
+            @include('partials.sidebar-dosen')
+        @elseif(Auth::user()->role === 'mahasiswa')
+            @include('partials.sidebar-mahasiswa')
+        @endif
 
-    {{-- Main Content --}}
-    <div class="md:ml-64 min-h-screen flex flex-col">
-        {{-- Navbar --}}
-        @include('partials.navbar')
+    {{-- Konten utama --}}
+    <!-- overlay for mobile when sidebar is open -->
+    <div id="overlay" class="hidden fixed inset-0 bg-black/30 z-40 md:hidden"></div>
 
-        {{-- Content --}}
-        <main class="flex-1 p-6">
-            @yield('content')
-        </main>
+    <div class="content md:ml-64 transition-all duration-300">
+            @include('partials.navbar')
 
-        {{-- Footer --}}
-        @include('partials.footer')
+            <main class="md:p-6 md:pl-0">
+                @yield('content')
+            </main>
+        </div>
     </div>
-
-    {{-- Script --}}
-    <script src="{{ asset('assets/js/app.js') }}" defer></script>
-
     @stack('scripts')
 </body>
 

@@ -55,7 +55,7 @@
                                         <h4 class="font-medium text-gray-900">Pemrograman Web</h4>
                                         <p class="text-sm text-gray-600">TI-2A • Semester 3</p>
                                     </div>
-                                    <button class="w-full sm:w-auto bg-accent text-white px-3 py-1.5 rounded text-sm hover:bg-accent/90">
+                                    <button class="w-full sm:w-auto bg-mint text-white px-3 py-1.5 rounded text-sm hover:bg-mint/90">
                                         Buka Presensi
                                     </button>
                                 </div>

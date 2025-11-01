@@ -89,7 +89,7 @@
               </a>
               <button
                 type="submit"
-                class="px-6 py-2.5 rounded-lg bg-accent text-white hover:bg-accent/90 transition-colors"
+                class="px-6 py-2.5 rounded-lg bg-mint text-white hover:bg-mint/90 transition-colors"
               >
                 Simpan 
               </button>

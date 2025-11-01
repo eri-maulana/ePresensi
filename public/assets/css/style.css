@@ -2,8 +2,9 @@
   --bg: #f6fbfb;
   --card: #ffffff;
   --muted: #6b7280;
-  --mint: #78c2b6;
-  --mint-600: #46a79a;
+  /* Mint color adjusted to match Tailwind config */
+  --mint: #34D399; /* primary mint */
+  --mint-600: #059669; /* darker mint */
   --sidebar: #eef7f6;
   --radius: 12px;
   --shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
@@ -228,6 +229,45 @@ a {
     border-radius: 0;
   }
 }
+
+/* -- Overrides to ensure mint backgrounds have white text for contrast -- */
+.bg-mint, .bg-mint-dark, .btn-primary, .btn.bg-mint, .nav a.bg-mint, .brand.bg-mint {
+  background-color: var(--mint) !important;
+  color: #ffffff !important;
+}
+
+.bg-mint-dark {
+  background-color: var(--mint-600) !important;
+  color: #ffffff !important;
+}
+
+/* Buttons or elements that use bg-accent (legacy) should also have white text */
+.bg-accent, .bg-accent-dark, .btn.bg-accent {
+  color: #ffffff !important;
+}
+
+/* For file inputs that use file:bg-mint/file:text-accent in templates, ensure readable text */
+input[type="file"][class*="file:bg-mint"]::file-selector-button {
+  background: var(--mint);
+  color: #fff;
+}
+
+/* Make plain <button> elements use mint background by default unless they already have a background utility class
+   This keeps consistency: buttons without explicit bg-* will appear mint. Add .no-mint to opt-out. */
+button:not([class*="bg-"]):not(.no-mint) {
+  background: var(--mint);
+  color: #fff;
+  padding: 0.45rem 0.75rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+button.no-mint {
+  background: transparent;
+  color: inherit;
+}
+
 @media (max-width: 600px) {
   .card-row {
     grid-template-columns: 1fr;

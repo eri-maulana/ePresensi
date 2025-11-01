@@ -66,7 +66,7 @@
 
             <!-- Action Buttons -->
             <div class="flex gap-3">
-              <button class="flex-1 bg-accent text-white px-6 py-3 rounded-lg hover:bg-accent/90 shadow-sm flex items-center justify-center gap-2">
+              <button class="flex-1 bg-mint text-white px-6 py-3 rounded-lg hover:bg-mint/90 shadow-sm flex items-center justify-center gap-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>

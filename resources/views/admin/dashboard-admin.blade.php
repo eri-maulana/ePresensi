@@ -1,12 +1,13 @@
 @extends('layouts.main')
 
-@section('title', 'Dashboard Admin')
-@section('page-title', 'Dashboard Admin')
+@section('title', 'Dashboard - Admin')
+@section('page-title', 'Dashboard')
+@section('page-id', 'admin/dashboard-admin')
 
 @section('content')
   <!-- Quick Actions -->
-  <div class="flex flex-wrap gap-4 mb-2">
-    <button class="flex items-center bg-accent hover:bg-accent/90 text-white gap-2 px-4 py-2 rounded-lg  shadow-sm">
+  <div class="flex md:flex-wrap gap-4 mb-4">
+    <button class="flex items-center bg-mint hover:bg-mint/90 text-white gap-2 px-4 py-2 rounded-lg  shadow-sm">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
       </svg>

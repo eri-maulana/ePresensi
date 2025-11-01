@@ -4,13 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\ProfileController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Default
+Route::redirect('/', '/login');
 
-// ===================== ADMIN =====================
-Route::prefix('admin')->controller(AdminController::class)->group(function () {
+// ========== ADMIN ==========
+Route::middleware(['auth'])->prefix('admin')->controller(AdminController::class)->group(function () {
     Route::get('/dashboard', 'dashboard')->name('admin.dashboard');
     Route::get('/data-mahasiswa', 'dataMahasiswa')->name('admin.data-mahasiswa');
     Route::get('/data-dosen', 'dataDosen')->name('admin.data-dosen');
@@ -30,8 +30,8 @@ Route::prefix('admin')->controller(AdminController::class)->group(function () {
     Route::get('/tambah-jadwal', 'tambahJadwal')->name('admin.tambah-jadwal');
 });
 
-// ===================== DOSEN =====================
-Route::prefix('dosen')->controller(DosenController::class)->group(function () {
+// ========== DOSEN ==========
+Route::middleware(['auth'])->prefix('dosen')->controller(DosenController::class)->group(function () {
     Route::get('/dashboard', 'dashboard')->name('dosen.dashboard');
     Route::get('/jadwal-mengajar', 'jadwalMengajar')->name('dosen.jadwal-mengajar');
     Route::get('/daftar-mahasiswa', 'daftarMahasiswa')->name('dosen.daftar-mahasiswa');
@@ -40,11 +40,13 @@ Route::prefix('dosen')->controller(DosenController::class)->group(function () {
     Route::get('/edit', 'edit')->name('dosen.edit-profil');
 });
 
-// ===================== MAHASISWA =====================
-Route::prefix('mahasiswa')->controller(MahasiswaController::class)->group(function () {
+// ========== MAHASISWA ==========
+Route::middleware(['auth'])->prefix('mahasiswa')->controller(MahasiswaController::class)->group(function () {
     Route::get('/dashboard', 'dashboard')->name('mahasiswa.dashboard');
     Route::get('/presensi', 'presensi')->name('mahasiswa.presensi');
     Route::get('/riwayat-presensi', 'riwayatPresensi')->name('mahasiswa.riwayat-presensi');
     Route::get('/profil', 'profil')->name('mahasiswa.profil-mahasiswa');
     Route::get('/edit-profil', 'editProfil')->name('mahasiswa.edit-profil');
 });
+
+require __DIR__ . '/auth.php';

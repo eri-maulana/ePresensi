@@ -1,11 +1,8 @@
 <aside id="sidebar"
-    class="fixed top-0 left-0 w-64 h-full bg-white shadow-lg transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out z-50">
-    <div class="p-3 flex justify-between items-center">
-        <h1 class="text-lg font-bold text-gray-700">Admin Panel</h1>
-        <button id="closeSidebar" class="md:hidden text-gray-500 hover:text-gray-700">✕</button>
-    </div>
+    class="fixed top-0 left-0 w-64 h-full bg-white border-r shadow-lg transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out z-50">
+    
 
-    <nav class="p-4 space-y-2">
+    <nav class="nav p-4 space-y-2">
         <a href="{{ route('admin.dashboard') }}"
             class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700 {{ request()->routeIs('admin.dashboard') ? 'bg-mint font-semibold' : '' }}">🏠
             Dashboard</a>
@@ -33,5 +30,8 @@
         <a href="{{ route('admin.rekap-presensi') }}"
             class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700 {{ request()->routeIs('admin.rekap-presensi') ? 'bg-mint font-semibold' : '' }}">📊
             Rekap Presensi</a>
+        <a href="{{ route('admin.profil') }}"
+            class="block py-2 px-3 rounded hover:bg-mint-light text-gray-700 {{ request()->routeIs('admin.profil') ? 'bg-mint font-semibold' : '' }}">📊
+            Profil</a>
     </nav>
 </aside>

@@ -7,7 +7,6 @@
   <main class="flex-1 p-6">
         <div class="max-w-6xl mx-auto">
           <div class="flex items-center justify-between mb-6">
-            <div class="text-sm text-gray-500">Laporan &gt; Rekap Presensi</div>
             <div class="space-x-2">
               <a href="#" class="inline-flex items-center gap-2 bg-mint hover:bg-mint-dark text-gray-800 px-3 py-2 rounded-lg font-medium shadow">Export Excel</a>
             </div>
