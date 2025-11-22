@@ -23,39 +23,63 @@
 
   <!-- Overview Statistics -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-    @php
-      $cards = [
-        ['label' => 'Total Mahasiswa', 'iconColor' => 'text-accent', 'value' => '2,560', 'desc' => '+12 hari ini', 'descColor' => 'text-green-600'],
-        ['label' => 'Total Kelas Aktif', 'iconColor' => 'text-accent', 'value' => '86', 'desc' => '8 sedang berlangsung', 'descColor' => 'text-blue-600'],
-        ['label' => 'Total Dosen', 'iconColor' => 'text-accent', 'value' => '124', 'desc' => '5 dosen baru', 'descColor' => 'text-blue-600'],
-        ['label' => 'Total Mata Kuliah', 'iconColor' => 'text-accent', 'value' => '48', 'desc' => '12 aktif minggu ini', 'descColor' => 'text-yellow-600'],
-      ];
-    @endphp
-
-    @foreach ($cards as $c)
     <div class="bg-white rounded-xl p-4 shadow">
       <div class="flex items-center gap-3">
         <div class="bg-mint p-3 rounded-lg">
-          <svg class="w-6 h-6 {{ $c['iconColor'] }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1z"/>
           </svg>
         </div>
         <div>
-          <p class="text-gray-500 text-sm">{{ $c['label'] }}</p>
-          <h2 class="text-2xl font-bold mt-1">{{ $c['value'] }}</h2>
+          <p class="text-gray-500 text-sm">Total Mahasiswa</p>
+          <h2 class="text-2xl font-bold mt-1">{{ $data['total_mahasiswa'] }}</h2>
         </div>
       </div>
-      <div class="mt-2 text-sm {{ $c['descColor'] }}">
-        <span class="flex items-center gap-1">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+    </div>
+
+    <div class="bg-white rounded-xl p-4 shadow">
+      <div class="flex items-center gap-3">
+        <div class="bg-mint p-3 rounded-lg">
+          <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
           </svg>
-          {{ $c['desc'] }}
-        </span>
+        </div>
+        <div>
+          <p class="text-gray-500 text-sm">Total Kelas Aktif</p>
+          <h2 class="text-2xl font-bold mt-1">{{ $data['total_kelas'] }}</h2>
+        </div>
       </div>
     </div>
-    @endforeach
+
+    <div class="bg-white rounded-xl p-4 shadow">
+      <div class="flex items-center gap-3">
+        <div class="bg-mint p-3 rounded-lg">
+          <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10m-9 4h4m1 4h-5a2 2 0 01-2-2V7a2 2 0 012-2h5"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-gray-500 text-sm">Total Dosen</p>
+          <h2 class="text-2xl font-bold mt-1">{{ $data['total_dosen'] }}</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl p-4 shadow">
+      <div class="flex items-center gap-3">
+        <div class="bg-mint p-3 rounded-lg">
+          <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 10h16M4 15h16M4 20h16"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-gray-500 text-sm">Total Mata Kuliah</p>
+          <h2 class="text-2xl font-bold mt-1">{{ $data['total_mk'] }}</h2>
+        </div>
+      </div>
+    </div>
   </div>
+
 
   <!-- Grafik & Kelas -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">

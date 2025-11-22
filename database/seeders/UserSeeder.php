@@ -3,18 +3,22 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Jalankan seeder untuk user default.
-     */
     public function run(): void
     {
-        // ⚠️ Opsional: Hapus user lama agar tidak duplikat
+        // 🔧 Nonaktifkan foreign key check sementara
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        // Kosongkan tabel
         User::truncate();
+
+        // Aktifkan lagi foreign key check
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         // 👑 Admin
         User::create([
@@ -24,32 +28,46 @@ class UserSeeder extends Seeder
             'password' => Hash::make('admin'),
             'role' => 'admin',
             'no_hp' => '081234567890',
-            'foto' => 'default-admin.png', // kamu bisa siapkan di public/assets/img/default-admin.png
-            'alamat' => 'Jl. Merdeka No. 1, Kota Kampus',
+            'foto' => 'default-admin.png',
+            'alamat' => 'STMIK AL FATH',
         ]);
 
         // 👨‍🏫 Dosen
         User::create([
-            'name' => 'Dosen',
+            'name' => 'Weli Kusnadi S.Kom M.Kom',
             'kode_identitas' => 'DSN12345',
-            'email' => 'dosen@gmail.com',
+            'email' => 'dosen1@gmail.com',
+            'password' => Hash::make('dosen'),
+            'role' => 'dosen',
+            'no_hp' => '08123456789',
+            'foto' => 'default-dosen.png',
+            'alamat' => 'Sukabumi',
+            
+        ]);
+
+        User::create([
+            'name' => 'Irwan Tanu Kusnadi S.Kom M.Kom',
+            'kode_identitas' => 'DSN54321',
+            'email' => 'dosen2@gmail.com',
             'password' => Hash::make('dosen'),
             'role' => 'dosen',
             'no_hp' => '081298765432',
             'foto' => 'default-dosen.png',
-            'alamat' => 'Jl. Pendidikan No. 9, Kota Kampus',
+            'alamat' => 'Sukabumi',
         ]);
 
         // 🎓 Mahasiswa
-        User::create([
-            'name' => 'Mahasiswa Teknologi Informasi',
-            'kode_identitas' => 'MHS2025001',
-            'email' => 'mahasiswa@gmail.com',
-            'password' => Hash::make('mahasiswa'),
-            'role' => 'mahasiswa',
-            'no_hp' => '082112223333',
-            'foto' => 'default-mahasiswa.png',
-            'alamat' => 'Jl. Kampus Raya No. 21, Kota Kampus',
-        ]);
+        for ($i = 1; $i <= 5; $i++) {
+            User::create([
+                'name' => "Mahasiswa {$i}",
+                'kode_identitas' => "MHS2025{$i}",
+                'email' => "mahasiswa{$i}@gmail.com",
+                'password' => Hash::make('mahasiswa'),
+                'role' => 'mahasiswa',
+                'no_hp' => "082100000{$i}",
+                'foto' => 'default-mahasiswa.png',
+                'alamat' => "Daerah {$i}",
+            ]);
+        }
     }
 }
