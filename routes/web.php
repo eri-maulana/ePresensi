@@ -32,6 +32,15 @@ Route::middleware(['auth'])->prefix('admin')->controller(AdminController::class)
     Route::get('/tambah-kampus', 'tambahKampus')->name('admin.tambah-kampus');
     Route::get('/tambah-jadwal', 'tambahJadwal')->name('admin.tambah-jadwal');
     
+    // Admin kelas (custom CRUD routes)
+    Route::get('/tambah-kelas/create', [\App\Http\Controllers\Admin\KelasController::class, 'create'])->name('admin.tambah-kelas.create');
+    Route::post('/tambah-kelas', [\App\Http\Controllers\Admin\KelasController::class, 'store'])->name('admin.tambah-kelas.store');
+
+    Route::get('/ubah-kelas/{kelas}/edit', [\App\Http\Controllers\Admin\KelasController::class, 'edit'])->name('admin.ubah-kelas.edit');
+    Route::put('/ubah-kelas/{kelas}', [\App\Http\Controllers\Admin\KelasController::class, 'update'])->name('admin.ubah-kelas.update');
+    Route::delete('/hapus-kelas/{kelas}', [\App\Http\Controllers\Admin\KelasController::class, 'destroy'])->name('admin.hapus-kelas');
+    Route::get('/detail-kelas/{kelas}', [\App\Http\Controllers\Admin\KelasController::class, 'show'])->name('admin.detail-kelas');
+    
     // Admin pengguna (custom paths) — gunakan halaman yang sudah Anda buat
     Route::get('/tambah-pengguna/create', [\App\Http\Controllers\Admin\UserController::class, 'create'])->name('admin.tambah-pengguna.create');
     Route::post('/tambah-pengguna', [\App\Http\Controllers\Admin\UserController::class, 'store'])->name('admin.tambah-pengguna.store');

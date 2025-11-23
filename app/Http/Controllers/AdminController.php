@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\MataKuliah;
+use App\Models\Kelas;
 
 class AdminController extends Controller
 {
@@ -33,7 +34,8 @@ class AdminController extends Controller
 
     public function dataKelas()
     {
-        return view('admin.data-kelas');
+        $kelas = Kelas::orderBy('nama_kelas')->paginate(20);
+        return view('admin.data-kelas', compact('kelas'));
     }
 
     public function dataKampus()
