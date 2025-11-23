@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\MataKuliah;
 
 class AdminController extends Controller
 {
@@ -26,7 +27,8 @@ class AdminController extends Controller
 
     public function dataMataKuliah()
     {
-        return view('admin.data-mata-kuliah');
+        $mata_kuliahs = MataKuliah::orderBy('kode_mk')->paginate(20);
+        return view('admin.data-mata-kuliah', compact('mata_kuliahs'));
     }
 
     public function dataKelas()

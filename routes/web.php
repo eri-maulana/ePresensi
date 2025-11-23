@@ -39,6 +39,15 @@ Route::middleware(['auth'])->prefix('admin')->controller(AdminController::class)
     Route::get('/ubah-pengguna/{user}/edit', [\App\Http\Controllers\Admin\UserController::class, 'edit'])->name('admin.ubah-pengguna.edit');
     Route::put('/ubah-pengguna/{user}', [\App\Http\Controllers\Admin\UserController::class, 'update'])->name('admin.ubah-pengguna.update');
     Route::delete('/hapus-pengguna/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('admin.hapus-pengguna');
+
+    // Admin mata kuliah (custom CRUD routes)
+    Route::get('/tambah-mata-kuliah/create', [\App\Http\Controllers\Admin\MataKuliahController::class, 'create'])->name('admin.tambah-mata-kuliah.create');
+    Route::post('/tambah-mata-kuliah', [\App\Http\Controllers\Admin\MataKuliahController::class, 'store'])->name('admin.tambah-mata-kuliah.store');
+
+    Route::get('/ubah-mata-kuliah/{mataKuliah}/edit', [\App\Http\Controllers\Admin\MataKuliahController::class, 'edit'])->name('admin.ubah-mata-kuliah.edit');
+    Route::put('/ubah-mata-kuliah/{mataKuliah}', [\App\Http\Controllers\Admin\MataKuliahController::class, 'update'])->name('admin.ubah-mata-kuliah.update');
+    Route::delete('/hapus-mata-kuliah/{mataKuliah}', [\App\Http\Controllers\Admin\MataKuliahController::class, 'destroy'])->name('admin.hapus-mata-kuliah');
+    Route::get('/detail-mata-kuliah/{mataKuliah}', [\App\Http\Controllers\Admin\MataKuliahController::class, 'show'])->name('admin.detail-mata-kuliah');
 });
 
 // ========== DOSEN ==========
