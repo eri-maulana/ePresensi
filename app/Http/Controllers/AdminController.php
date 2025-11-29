@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\MataKuliah;
 use App\Models\Kelas;
 use App\Models\Kampus;
+use App\Models\Jadwal;
 
 class AdminController extends Controller
 {
@@ -49,7 +50,8 @@ class AdminController extends Controller
 
     public function dataJadwal()
     {
-        return view('admin.data-jadwal');
+        $jadwals = Jadwal::with(['mataKuliah', 'kelas', 'dosen'])->orderBy('hari')->orderBy('jam_mulai')->paginate(20);
+        return view('admin.data-jadwal', compact('jadwals'));
     }
 
     public function dataPengguna()

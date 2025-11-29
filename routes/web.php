@@ -67,6 +67,15 @@ Route::middleware(['auth'])->prefix('admin')->controller(AdminController::class)
     Route::put('/ubah-kampus/{kampus}', [\App\Http\Controllers\Admin\KampusController::class, 'update'])->name('admin.ubah-kampus.update');
     Route::delete('/hapus-kampus/{kampus}', [\App\Http\Controllers\Admin\KampusController::class, 'destroy'])->name('admin.hapus-kampus');
     Route::get('/detail-kampus/{kampus}', [\App\Http\Controllers\Admin\KampusController::class, 'show'])->name('admin.detail-kampus');
+
+    // Admin jadwal (custom CRUD routes)
+    Route::get('/tambah-jadwal/create', [\App\Http\Controllers\Admin\JadwalController::class, 'create'])->name('admin.tambah-jadwal.create');
+    Route::post('/tambah-jadwal', [\App\Http\Controllers\Admin\JadwalController::class, 'store'])->name('admin.tambah-jadwal.store');
+
+    Route::get('/ubah-jadwal/{jadwal}/edit', [\App\Http\Controllers\Admin\JadwalController::class, 'edit'])->name('admin.ubah-jadwal.edit');
+    Route::put('/ubah-jadwal/{jadwal}', [\App\Http\Controllers\Admin\JadwalController::class, 'update'])->name('admin.ubah-jadwal.update');
+    Route::delete('/hapus-jadwal/{jadwal}', [\App\Http\Controllers\Admin\JadwalController::class, 'destroy'])->name('admin.hapus-jadwal');
+    Route::get('/detail-jadwal/{jadwal}', [\App\Http\Controllers\Admin\JadwalController::class, 'show'])->name('admin.detail-jadwal');
 });
 
 // ========== DOSEN ==========

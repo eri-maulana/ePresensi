@@ -1,117 +1,84 @@
 @extends('layouts.main')
 
-@section('title', 'Admin — Tambah Jadwal')
-@section('page-title', 'Tambah Jadwal')
+@section('title', isset($jadwal) ? 'Ubah Jadwal' : 'Tambah Jadwal')
+@section('page-title', isset($jadwal) ? 'Ubah Jadwal' : 'Tambah Jadwal')
 
 @section('content')
-      <!-- Content -->
-      <main class="flex-1 p-6">
-        <div class="bg-white p-6 rounded-xl shadow-md max-w-3xl mx-auto">
-          <h3 class="text-lg font-semibold text-gray-700 mb-5">Form Tambah Jadwal</h3>
+  <div class="bg-white p-6 rounded-xl shadow-md">
+    <form action="{{ isset($jadwal) ? route('admin.ubah-jadwal.update', $jadwal) : route('admin.tambah-jadwal.store') }}" method="POST">
+      @csrf
+      @if(isset($jadwal)) @method('PUT') @endif
 
-          <form class="bg-white p-6 rounded-xl shadow-md border border-gray-100 max-w-2xl mx-auto space-y-5">
-            <!-- Mata Kuliah -->
-            <div>
-              <label class="block text-gray-700 font-medium mb-2">Mata Kuliah</label>
-              <select class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-mint">
-                <option value="">-- Pilih Mata Kuliah --</option>
-                <option value="1">Pemrograman Dasar (IF101)</option>
-                <option value="2">Basis Data I (DB201)</option>
-                <option value="3">Jaringan Komputer (JK301)</option>
-              </select>
-            </div>
-
-            <!-- Kelas -->
-            <div>
-              <label class="block text-gray-700 font-medium mb-2">Kelas</label>
-              <select class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-mint">
-                <option value="">-- Pilih Kelas --</option>
-                <option value="1">TI-1A</option>
-                <option value="2">TI-1B</option>
-                <option value="3">SI-2A</option>
-              </select>
-            </div>
-
-            <!-- Dosen -->
-            <div>
-              <label class="block text-gray-700 font-medium mb-2">Dosen</label>
-              <select class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-mint">
-                <option value="">-- Pilih Dosen --</option>
-                <option value="1">Dr. Agus (198701)</option>
-                <option value="2">Prof. Sari (199102)</option>
-                <option value="3">Ir. Budi (198512)</option>
-              </select>
-            </div>
-
-            <!-- Hari -->
-            <div>
-              <label class="block text-gray-700 font-medium mb-2">Hari</label>
-              <select class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-mint">
-                <option value="">-- Pilih Hari --</option>
-                <option value="Senin">Senin</option>
-                <option value="Selasa">Selasa</option>
-                <option value="Rabu">Rabu</option>
-                <option value="Kamis">Kamis</option>
-                <option value="Jumat">Jumat</option>
-              </select>
-            </div>
-
-            <!-- Jam -->
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="block text-gray-700 font-medium mb-2">Jam Mulai</label>
-                <input
-                  type="time"
-                  class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-mint"
-                />
-              </div>
-              <div>
-                <label class="block text-gray-700 font-medium mb-2">Jam Selesai</label>
-                <input
-                  type="time"
-                  class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-mint"
-                />
-              </div>
-            </div>
-
-            <!-- Tombol -->
-            <div class="flex justify-end pt-4">
-              <a href="data-jadwal.html" 
-                class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium shadow mr-2">
-                Batal
-              </a>
-              <button
-                type="submit"
-                class="px-6 py-2.5 rounded-lg bg-mint text-white hover:bg-mint/90 transition-colors"
-              >
-                Simpan 
-              </button>
-            </div>
-          </form>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Mata Kuliah</label>
+          <select name="mata_kuliah_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+            <option value="">Pilih mata kuliah</option>
+            @foreach($mata_kuliahs as $mk)
+              <option value="{{ $mk->id }}" {{ old('mata_kuliah_id', $jadwal->mata_kuliah_id ?? '') == $mk->id ? 'selected' : '' }}>{{ $mk->kode_mk }} - {{ $mk->nama_mk }}</option>
+            @endforeach
+          </select>
+          @error('mata_kuliah_id') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
         </div>
-      </main>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Kelas</label>
+          <select name="kelas_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+            <option value="">Pilih kelas</option>
+            @foreach($kelas as $k)
+              <option value="{{ $k->id }}" {{ old('kelas_id', $jadwal->kelas_id ?? '') == $k->id ? 'selected' : '' }}>{{ $k->nama_kelas }}</option>
+            @endforeach
+          </select>
+          @error('kelas_id') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Dosen (opsional)</label>
+          <select name="dosen_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+            <option value="">Pilih dosen</option>
+            @foreach($dosens as $d)
+              <option value="{{ $d->id }}" {{ old('dosen_id', $jadwal->dosen_id ?? '') == $d->id ? 'selected' : '' }}>{{ $d->name }}</option>
+            @endforeach
+          </select>
+          @error('dosen_id') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Hari</label>
+          <select name="hari" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+            <option value="">Pilih hari</option>
+            @foreach(['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'] as $h)
+              <option value="{{ $h }}" {{ old('hari', $jadwal->hari ?? '') == $h ? 'selected' : '' }}>{{ $h }}</option>
+            @endforeach
+          </select>
+          @error('hari') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Jam Mulai</label>
+          <input type="time" name="jam_mulai" value="{{ old('jam_mulai', $jadwal->jam_mulai ?? '') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+          @error('jam_mulai') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Jam Selesai</label>
+          <input type="time" name="jam_selesai" value="{{ old('jam_selesai', $jadwal->jam_selesai ?? '') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+          @error('jam_selesai') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-gray-700">Ruangan (opsional)</label>
+          <input type="text" name="ruangan" value="{{ old('ruangan', $jadwal->ruangan ?? '') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+          @error('ruangan') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
+        </div>
+      </div>
+
+      <div class="mt-6 flex items-center justify-between">
+        <div>
+          <a href="{{ url()->previous() }}" class="text-gray-600 hover:text-gray-800">Batal</a>
+        </div>
+        <button type="submit" class="bg-mint hover:bg-mint/90 text-white px-4 py-2 rounded-lg">Simpan</button>
+      </div>
+    </form>
+  </div>
 @endsection
-
-@push('scripts')
-<script>
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("overlay");
-  const openSidebar = document.getElementById("openSidebar");
-  const closeSidebar = document.getElementById("closeSidebar");
-
-  openSidebar.addEventListener("click", () => {
-    sidebar.classList.remove("-translate-x-full");
-    overlay.classList.remove("hidden");
-  });
-
-  closeSidebar.addEventListener("click", () => {
-    sidebar.classList.add("-translate-x-full");
-    overlay.classList.add("hidden");
-  });
-
-  overlay.addEventListener("click", () => {
-    sidebar.classList.add("-translate-x-full");
-    overlay.classList.add("hidden");
-  });
-</script>
-@endpush
