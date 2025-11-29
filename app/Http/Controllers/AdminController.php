@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\MataKuliah;
 use App\Models\Kelas;
 use App\Models\Kampus;
+use App\Models\Presensi;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use App\Models\Jadwal;
 
 class AdminController extends Controller
@@ -63,7 +65,80 @@ class AdminController extends Controller
 
     public function rekapPresensi()
     {
-        return view('admin.rekap-presensi');
+        $request = request();
+
+        $kelasList = Kelas::orderBy('nama_kelas')->get();
+        $mataList = MataKuliah::orderBy('kode_mk')->get();
+
+        $query = Presensi::with(['user', 'jadwal.mataKuliah', 'jadwal.kelas'])
+            ->orderBy('created_at', 'desc');
+
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->input('date_from'));
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->input('date_to'));
+        }
+
+        if ($request->filled('kelas_id')) {
+            $kelasId = $request->input('kelas_id');
+            $query->whereHas('jadwal', function ($q) use ($kelasId) {
+                $q->where('kelas_id', $kelasId);
+            });
+        }
+
+        if ($request->filled('mata_kuliah_id')) {
+            $mkId = $request->input('mata_kuliah_id');
+            $query->whereHas('jadwal', function ($q) use ($mkId) {
+                $q->where('mata_kuliah_id', $mkId);
+            });
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->input('status'));
+        }
+
+        // Export CSV
+        if ($request->input('export') === 'csv') {
+            $filename = 'rekap_presensi_' . now()->format('Ymd_His') . '.csv';
+
+            $response = new StreamedResponse(function () use ($query) {
+                $handle = fopen('php://output', 'w');
+                // Header
+                fputcsv($handle, ['Waktu', 'Nama Mahasiswa', 'NIM', 'Mata Kuliah', 'Kelas', 'Hari', 'Jam', 'Status', 'Latitude', 'Longitude', 'Distance_m']);
+
+                $query->chunk(200, function ($rows) use ($handle) {
+                    foreach ($rows as $row) {
+                        $jadwal = $row->jadwal;
+                        fputcsv($handle, [
+                            $row->created_at,
+                            optional($row->user)->name,
+                            optional($row->user)->nim ?? '',
+                            optional(optional($jadwal)->mataKuliah)->kode_mk . ' - ' . optional(optional($jadwal)->mataKuliah)->nama_mk,
+                            optional(optional($jadwal)->kelas)->nama_kelas,
+                            optional($jadwal)->hari ?? '',
+                            (optional($jadwal)->jam_mulai ?? '') . ' - ' . (optional($jadwal)->jam_selesai ?? ''),
+                            $row->status,
+                            $row->latitude,
+                            $row->longitude,
+                            $row->distance_m,
+                        ]);
+                    }
+                });
+
+                fclose($handle);
+            });
+
+            $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+            $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+
+            return $response;
+        }
+
+        $presensis = $query->paginate(20)->withQueryString();
+
+        return view('admin.rekap-presensi', compact('presensis', 'kelasList', 'mataList'));
     }
 
     public function profil()

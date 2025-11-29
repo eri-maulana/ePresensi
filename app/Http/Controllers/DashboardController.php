@@ -16,16 +16,35 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        switch ($user->role) {
-            case 'admin':
-                $data = [
-                    'total_mahasiswa' => User::where('role', 'mahasiswa')->count(),
-                    'total_dosen' => User::where('role', 'dosen')->count(),
-                    'total_kelas' => Kelas::count(),
-                    'total_mk' => MataKuliah::count(),
-                    'kelas_terbaru' => Kelas::latest()->take(5)->get(),
-                ];
-                return view('admin.dashboard-admin', compact('data'));
+        if ($user->role === 'admin') {
+            $data = [
+                'total_mahasiswa' => User::where('role', 'mahasiswa')->count(),
+                'total_dosen' => User::where('role', 'dosen')->count(),
+                'total_kelas' => Kelas::count(),
+                'total_mk' => MataKuliah::count(),
+                'kelas_terbaru' => Kelas::with(['jadwals', 'mahasiswas'])->latest()->take(5)->get(),
+                'aktivitas' => [
+                    // Contoh: ambil 5 kelas terbaru
+                    ...Kelas::latest()->take(5)->get()->map(function($k){
+                        return [
+                            'type' => 'kelas',
+                            'title' => 'Kelas Baru Ditambahkan',
+                            'desc' => $k->nama_kelas,
+                            'time' => $k->created_at,
+                        ];
+                    })
+                ],
+                'peringatan' => [
+                    // Contoh: kelas tanpa jadwal minggu depan
+                    ...Kelas::doesntHave('jadwals')->take(3)->get()->map(function($k){
+                        return [
+                            'msg' => $k->nama_kelas.' belum ada jadwal minggu depan',
+                            'action' => route('admin.tambah-jadwal.create'),
+                        ];
+                    })
+                ],
+            ];
+            return view('admin.dashboard-admin', compact('data'));
         }
     }
 }

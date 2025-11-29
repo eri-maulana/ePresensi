@@ -7,18 +7,18 @@
 @section('content')
   <!-- Quick Actions -->
   <div class="flex md:flex-wrap gap-4 mb-4">
-    <button class="flex items-center bg-mint hover:bg-mint/90 text-white gap-2 px-4 py-2 rounded-lg  shadow-sm">
+    <a href="{{ route('admin.tambah-jadwal.create') }}" class="flex items-center bg-mint hover:bg-mint/90 text-white gap-2 px-4 py-2 rounded-lg  shadow-sm">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
       </svg>
       Tambah Jadwal
-    </button>
-    <button class="flex items-center gap-2 bg-white text-accent border border-accent px-4 py-2 rounded-lg hover:bg-mint shadow-sm">
+    </a>
+    <a href="{{ route('admin.rekap-presensi') }}" class="flex items-center gap-2 bg-white text-accent border border-accent px-4 py-2 rounded-lg hover:bg-mint shadow-sm">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
       </svg>
       Generate Laporan
-    </button>
+    </a>
   </div>
 
   <!-- Overview Statistics -->
@@ -98,26 +98,23 @@
     <div class="bg-white rounded-xl p-4 shadow">
       <div class="flex justify-between items-center mb-4">
         <h3 class="font-semibold text-gray-700">Kelas Terbaru Ditambahkan</h3>
-        <a href="#" class="text-sm text-accent hover:underline">Lihat Semua</a>
+        <a href="{{ route('admin.data-kelas') }}" class="text-sm text-accent hover:underline">Lihat Semua</a>
       </div>
-      {{-- Data kelas bisa diganti nanti dari database --}}
       <div class="space-y-3">
-        @foreach ([['Pemrograman Web','TI-2A','Dr. Agus','40 Mahasiswa','Aktif'],
-                   ['Basis Data Lanjut','TI-3B','Dr. Budi','35 Mahasiswa','Aktif'],
-                   ['Jaringan Komputer','TI-2C','Dr. Citra','38 Mahasiswa','Menunggu']] as $k)
+        @foreach ($data['kelas_terbaru'] as $kelas)
         <div class="p-3 bg-gray-50 rounded-lg">
           <div class="flex justify-between items-start">
             <div>
-              <h4 class="font-medium text-gray-800">{{ $k[0] }}</h4>
-              <p class="text-sm text-gray-600 mt-1">{{ $k[1] }} - Semester Ganjil 2025/2026</p>
+              <h4 class="font-medium text-gray-800">{{ $kelas->nama_kelas }}</h4>
+              <p class="text-sm text-gray-600 mt-1">Semester {{ $kelas->tahun_ajaran ?? '-' }}</p>
             </div>
-            <span class="px-2 py-1 bg-{{ $k[4]=='Aktif'?'green':'yellow' }}-100 text-{{ $k[4]=='Aktif'?'green':'yellow' }}-800 text-xs rounded-full">
-              {{ $k[4] }}
+            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+              Aktif
             </span>
           </div>
           <div class="flex items-center gap-4 mt-2 text-sm text-gray-500">
-            <span class="flex items-center gap-1">👨‍🏫 {{ $k[2] }}</span>
-            <span class="flex items-center gap-1">🎓 {{ $k[3] }}</span>
+            <span class="flex items-center gap-1">👨‍🏫 {{ $kelas->jadwals->first()->dosen->name ?? '-' }}</span>
+            <span class="flex items-center gap-1">🎓 {{ $kelas->mahasiswas->count() }} Mahasiswa</span>
           </div>
         </div>
         @endforeach
@@ -130,6 +127,7 @@
     <div class="bg-white rounded-xl p-4 shadow">
       <h3 class="font-semibold text-gray-700 mb-4">Aktivitas Terbaru</h3>
       <div class="space-y-4">
+        @foreach ($data['aktivitas'] as $act)
         <div class="flex gap-3 items-start">
           <div class="flex-none flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-blue-600">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -137,24 +135,27 @@
             </svg>
           </div>
           <div>
-            <p class="text-sm font-medium text-gray-900">Kelas Baru Ditambahkan</p>
-            <p class="text-sm text-gray-500">Pemrograman Web - TI-2A</p>
-            <p class="text-xs text-gray-400 mt-0.5">2 menit yang lalu</p>
+            <p class="text-sm font-medium text-gray-900">{{ $act['title'] }}</p>
+            <p class="text-sm text-gray-500">{{ $act['desc'] }}</p>
+            <p class="text-xs text-gray-400 mt-0.5">{{ $act['time'] }}</p>
           </div>
         </div>
+        @endforeach
       </div>
     </div>
 
     <div class="bg-white rounded-xl p-4 shadow">
       <div class="flex justify-between items-center mb-4">
         <h3 class="font-semibold text-gray-700">Peringatan Sistem</h3>
-        <button class="text-sm text-accent hover:underline">Lihat Semua</button>
+        <a href="{{ route('admin.data-kelas') }}" class="text-sm text-accent hover:underline">Lihat Semua</a>
       </div>
       <div class="space-y-3">
+        @foreach ($data['peringatan'] as $warn)
         <div class="flex items-center justify-between p-3 bg-yellow-50 text-yellow-800 rounded-lg">
-          <span class="text-sm">3 kelas belum ada jadwalnya minggu depan</span>
-          <button class="text-xs font-medium hover:underline">Tindakan</button>
+          <span class="text-sm">{{ $warn['msg'] }}</span>
+          <a href="{{ $warn['action'] }}" class="text-xs font-medium hover:underline">Tindakan</a>
         </div>
+        @endforeach
       </div>
     </div>
   </div>

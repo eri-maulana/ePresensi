@@ -1,84 +1,97 @@
 @extends('layouts.main')
 
-@section('title', 'Admin — Rekap Presensi')
+@section('title', 'Rekap Presensi - Admin')
 @section('page-title', 'Rekap Presensi')
 
 @section('content')
-  <main class="flex-1 p-6">
-        <div class="max-w-6xl mx-auto">
-          <div class="flex items-center justify-between mb-6">
-            <div class="space-x-2">
-              <a href="#" class="inline-flex items-center gap-2 bg-mint hover:bg-mint-dark text-gray-800 px-3 py-2 rounded-lg font-medium shadow">Export Excel</a>
-            </div>
-          </div>
+  <div class="bg-white p-6 rounded-xl shadow-md">
+    <form method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Dari</label>
+        <input type="date" name="date_from" value="{{ request('date_from') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Sampai</label>
+        <input type="date" name="date_to" value="{{ request('date_to') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Kelas</label>
+        <select name="kelas_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+          <option value="">Semua kelas</option>
+          @foreach($kelasList as $k)
+            <option value="{{ $k->id }}" {{ request('kelas_id') == $k->id ? 'selected' : '' }}>{{ $k->nama_kelas }}</option>
+          @endforeach
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Mata Kuliah</label>
+        <select name="mata_kuliah_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+          <option value="">Semua mata kuliah</option>
+          @foreach($mataList as $m)
+            <option value="{{ $m->id }}" {{ request('mata_kuliah_id') == $m->id ? 'selected' : '' }}>{{ $m->kode_mk }} - {{ $m->nama_mk }}</option>
+          @endforeach
+        </select>
+      </div>
 
-          <!-- Filter card -->
-          <div class="bg-white p-6 rounded-xl shadow-md mb-6">
-            <h3 class="text-lg font-semibold text-gray-700">Filter</h3>
-            <form class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-              <div>
-                <label class="block text-sm text-gray-600 mb-1">Tanggal Mulai</label>
-                <input type="date" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-mint" />
-              </div>
-              <div>
-                <label class="block text-sm text-gray-600 mb-1">Tanggal Akhir</label>
-                <input type="date" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-mint" />
-              </div>
-              <div class="flex gap-2">
-                <button type="submit" class="bg-mint hover:bg-mint-dark text-gray-800 px-4 py-2 rounded-lg font-medium shadow">Terapkan</button>
-                <a href="#" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg font-medium">Reset</a>
-              </div>
-            </form>
-          </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Status</label>
+        <select name="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+          <option value="">Semua</option>
+          <option value="present" {{ request('status') == 'present' ? 'selected' : '' }}>Hadir</option>
+          <option value="late" {{ request('status') == 'late' ? 'selected' : '' }}>Telat</option>
+          <option value="absent" {{ request('status') == 'absent' ? 'selected' : '' }}>Absen</option>
+        </select>
+      </div>
 
-          <!-- Results table -->
-          <div class="bg-white rounded-xl shadow overflow-hidden border">
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-mint-light">
-                <tr>
-                  <th class="p-3 text-left font-semibold text-gray-700">Tanggal</th>
-                  <th class="p-3 text-left font-semibold text-gray-700">Jumlah Hadir</th>
-                </tr>
-              </thead>
-              <tbody class="bg-white divide-y divide-gray-200 text-sm text-gray-700">
-                <tr class="hover:bg-gray-50">
-                  <td class="p-3">2025-10-25</td>
-                  <td class="p-3">120</td>
-                </tr>
-                <tr class="hover:bg-gray-50">
-                  <td class="p-3">2025-10-24</td>
-                  <td class="p-3">110</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      <div class="md:col-span-4 flex justify-between items-end">
+        <div>
+          <a href="{{ route('admin.rekap-presensi') }}" class="text-gray-600">Reset</a>
         </div>
-  </main>
+        <div class="space-x-2">
+          <a href="{{ url()->full() . (strpos(url()->full(), '?') === false ? '?' : '&') . 'export=csv' }}" class="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">Export CSV</a>
+          <button type="submit" class="px-4 py-2 rounded bg-mint text-white">Tampilkan</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="overflow-x-auto rounded-lg border border-gray-200">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-mint-light">
+          <tr class="text-gray-800">
+            <th class="px-6 py-3 text-left font-semibold">#</th>
+            <th class="px-6 py-3 text-left font-semibold">Waktu</th>
+            <th class="px-6 py-3 text-left font-semibold">Nama</th>
+            <th class="px-6 py-3 text-left font-semibold">Mata Kuliah</th>
+            <th class="px-6 py-3 text-left font-semibold">Kelas</th>
+            <th class="px-6 py-3 text-left font-semibold">Jam</th>
+            <th class="px-6 py-3 text-left font-semibold">Status</th>
+            <th class="px-6 py-3 text-left font-semibold">Lokasi (m)</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          @forelse($presensis as $i => $p)
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4">{{ $presensis->firstItem() + $i }}</td>
+              <td class="px-6 py-4">{{ $p->created_at }}</td>
+              <td class="px-6 py-4">{{ optional($p->user)->name }}</td>
+              <td class="px-6 py-4">{{ optional($p->jadwal->mataKuliah)->kode_mk }} - {{ optional($p->jadwal->mataKuliah)->nama_mk }}</td>
+              <td class="px-6 py-4">{{ optional($p->jadwal->kelas)->nama_kelas }}</td>
+              <td class="px-6 py-4">{{ optional($p->jadwal)->jam_mulai }} - {{ optional($p->jadwal)->jam_selesai }}</td>
+              <td class="px-6 py-4">{{ $p->status }}</td>
+              <td class="px-6 py-4">{{ $p->distance_m ?? '-' }}</td>
+            </tr>
+          @empty
+            <tr>
+              <td colspan="8" class="px-6 py-4 text-center text-gray-500">Tidak ada data.</td>
+            </tr>
+          @endforelse
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-4">
+      {{ $presensis->links() }}
+    </div>
+  </div>
 @endsection
 
-@push('scripts')
-<script>
-  // Sidebar toggle (layout-provided elements)
-  (function () {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const openSidebar = document.getElementById('openSidebar');
-    const closeSidebar = document.getElementById('closeSidebar');
-
-    if (openSidebar) {
-      openSidebar.addEventListener("click", () => {
-        sidebar.classList.remove("-translate-x-full");
-        overlay.classList.remove("hidden");
-      });
-    }
-
-    [overlay, closeSidebar].forEach(el => {
-      if (!el) return;
-      el.addEventListener("click", () => {
-        sidebar.classList.add("-translate-x-full");
-        overlay.classList.add("hidden");
-      });
-    });
-  })();
-</script>
-@endpush
