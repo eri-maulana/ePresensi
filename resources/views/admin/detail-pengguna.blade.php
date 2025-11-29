@@ -49,7 +49,7 @@
           <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Hapus</button>
         </form>
 
-        <a href="{{ route('admin.data-pengguna') }}" class="px-4 py-2 border rounded">Kembali</a>
+        <a href="{{ url()->previous() }}" class="px-4 py-2 border rounded">Kembali</a>
       </div>
     </div>
   </div>

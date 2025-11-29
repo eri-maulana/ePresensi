@@ -121,7 +121,7 @@
 
             <!-- Action Buttons -->
             <div class="flex justify-end pt-4">
-                              <a href="{{ route('admin.data-pengguna') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium shadow mr-2">Batal</a>
+                              <a href="{{ url()->previous() }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium shadow mr-2">Batal</a>
                             <button type="submit" class="px-6 py-2.5 rounded-lg bg-mint text-white hover:bg-mint/90 transition-colors">{{ isset($user) ? 'Perbarui' : 'Simpan' }}</button>
             </div>
           </form>

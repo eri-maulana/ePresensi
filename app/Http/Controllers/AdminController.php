@@ -19,12 +19,14 @@ class AdminController extends Controller
 
     public function dataMahasiswa()
     {
-        return view('admin.data-mahasiswa');
+        $users = User::where('role', 'mahasiswa')->orderBy('name')->paginate(20);
+        return view('admin.data-mahasiswa', compact('users'));
     }
 
     public function dataDosen()
     {
-        return view('admin.data-dosen');
+        $users = User::where('role', 'dosen')->orderBy('name')->paginate(20);
+        return view('admin.data-dosen', compact('users'));
     }
 
     public function dataMataKuliah()

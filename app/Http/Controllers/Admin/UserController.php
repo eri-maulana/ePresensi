@@ -47,7 +47,14 @@ class UserController extends Controller
             );
         }
 
-    return redirect()->route('admin.data-pengguna')->with('success', 'User berhasil dibuat.');
+        // Redirect based on role: if dosen -> data-dosen, if mahasiswa -> data-mahasiswa, else data-pengguna
+        $redirectRoute = match($user->role) {
+            'dosen' => 'admin.data-dosen',
+            'mahasiswa' => 'admin.data-mahasiswa',
+            default => 'admin.data-pengguna'
+        };
+
+        return redirect()->route($redirectRoute)->with('success', 'User berhasil dibuat.');
     }
 
     public function edit(User $user)
@@ -88,13 +95,29 @@ class UserController extends Controller
             Mahasiswa::where('user_id', $user->id)->delete();
         }
 
-    return redirect()->route('admin.data-pengguna')->with('success', 'User berhasil diperbarui.');
+        // Determine role after update (prefer request value if provided)
+        $roleAfter = $request->input('role', $user->role);
+        $redirectRoute = match($roleAfter) {
+            'dosen' => 'admin.data-dosen',
+            'mahasiswa' => 'admin.data-mahasiswa',
+            default => 'admin.data-pengguna'
+        };
+
+        return redirect()->route($redirectRoute)->with('success', 'User berhasil diperbarui.');
     }
 
     public function destroy(User $user)
     {
+        // capture role before delete
+        $role = $user->role;
         $user->delete();
-        return redirect()->route('admin.data-pengguna')->with('success', 'User dihapus.');
+
+        $redirectRoute = match($role) {
+            'dosen' => 'admin.data-dosen',
+            'mahasiswa' => 'admin.data-mahasiswa',
+            default => 'admin.data-pengguna'
+        };
+        return redirect()->route($redirectRoute)->with('success', 'User dihapus.');
     }
 
     /**

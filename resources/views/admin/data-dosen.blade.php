@@ -7,41 +7,55 @@
   <div class="bg-white p-6 rounded-xl shadow-md">
     <div class="flex justify-between items-center mb-6">
       <h3 class="text-lg font-semibold text-gray-700">Daftar Dosen</h3>
+      <a href="{{ route('admin.tambah-pengguna.create') }}" class="bg-mint hover:bg-mint/90 text-white px-4 py-2 rounded-lg  shadow">Tambah Pengguna</a>
     </div>
 
-    <!-- Detail Table -->
+    @if(session('success'))
+      <div class="mb-4 p-3 rounded bg-green-50 text-green-700">{{ session('success') }}</div>
+    @endif
+    @if(session('error'))
+      <div class="mb-4 p-3 rounded bg-red-50 text-red-700">{{ session('error') }}</div>
+    @endif
+
     <div class="overflow-x-auto rounded-lg border border-gray-200">
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-mint-light">
-          <tr>
-            <th class="p-3 text-left font-semibold text-gray-700">#</th>
-            <th class="p-3 text-left font-semibold text-gray-700">Foto</th>
-            <th class="p-3 text-left font-semibold text-gray-700">NIDN</th>
-            <th class="p-3 text-left font-semibold text-gray-700">Nama</th>
-            <th class="p-3 text-left font-semibold text-gray-700">Email</th>
-            <th class="p-3 text-left font-semibold text-gray-700">No HP</th>
-            <th class="p-3 text-left font-semibold text-gray-700">Alamat</th>
-            <th class="p-3 text-center font-semibold text-gray-700">Aksi</th>
+          <tr class="text-gray-800">
+            <th scope="col" class="px-6 py-3 text-left font-semibold whitespace-nowrap">#</th>
+            <th scope="col" class="px-6 py-3 text-left font-semibold whitespace-nowrap">Nama</th>
+            <th scope="col" class="px-6 py-3 text-left font-semibold whitespace-nowrap">Email</th>
+            <th scope="col" class="px-6 py-3 text-left font-semibold whitespace-nowrap">No. HP</th>
+            <th scope="col" class="px-6 py-3 text-center font-semibold whitespace-nowrap">Aksi</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-          <tr class="hover:bg-gray-50">
-            <td class="p-3 text-gray-700">1</td>
-            <td class="p-3">
-              <img src="https://ui-avatars.com/api/?name=Agus&background=A5F3DC&color=000" alt="Dr. Agus" class="w-10 h-10 rounded-full" />
-            </td>
-            <td class="p-3 text-gray-700">198701</td>
-            <td class="p-3 text-gray-700">Dr. Agus</td>
-            <td class="p-3 text-gray-700">agus@stmikalfath.ac.id</td>
-            <td class="p-3 text-gray-700">08123456789</td>
-            <td class="p-3 text-gray-700">Jl. Sukabumi No. 10</td>
-            <td class="p-3 text-center">
-              <button class="text-blue-600 hover:text-blue-700 mx-1">✏️</button>
-              <button class="text-red-500 hover:text-red-600 mx-1">🗑️</button>
-            </td>
-          </tr>
+          @forelse($users as $index => $user)
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ $users->firstItem() + $index }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ $user->name }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ $user->email }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ $user->no_hp ?? '-' }}</td>
+              <td class="px-6 py-4 text-center whitespace-nowrap">
+                <a href="{{ route('admin.detail-pengguna', $user) }}" class="text-gray-600 hover:text-gray-800 mx-1">🔍</a>
+                <a href="{{ route('admin.ubah-pengguna.edit', $user) }}" class="text-blue-600 hover:text-blue-700 mx-1">✏️</a>
+                <form action="{{ route('admin.hapus-pengguna', $user) }}" method="POST" class="inline-block" onsubmit="return confirm('Hapus pengguna ini?');">
+                  @csrf
+                  @method('DELETE')
+                  <button class="text-red-500 hover:text-red-600 mx-1">🗑️</button>
+                </form>
+              </td>
+            </tr>
+          @empty
+            <tr>
+              <td colspan="5" class="px-6 py-4 text-center text-gray-500">Belum ada data dosen.</td>
+            </tr>
+          @endforelse
         </tbody>
       </table>
+    </div>
+
+    <div class="mt-4">
+      {{ $users->links() }}
     </div>
   </div>
 @endsection

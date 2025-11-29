@@ -7,8 +7,15 @@
   <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md">
     <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
       <h3 class="text-lg font-semibold text-gray-700">Informasi Mahasiswa</h3>
-      <a href="#" class="w-full sm:w-auto bg-mint hover:bg-mint/90 text-white px-4 py-2 rounded-lg shadow text-center">Tambah Data Mahasiswa</a>
+      <a href="{{ route('admin.tambah-pengguna.create') }}" class="w-full sm:w-auto bg-mint hover:bg-mint/90 text-white px-4 py-2 rounded-lg shadow text-center">Tambah Pengguna</a>
     </div>
+
+    @if(session('success'))
+      <div class="mb-4 p-3 rounded bg-green-50 text-green-700">{{ session('success') }}</div>
+    @endif
+    @if(session('error'))
+      <div class="mb-4 p-3 rounded bg-red-50 text-red-700">{{ session('error') }}</div>
+    @endif
 
     <!-- Detail Table -->
     <div class="relative overflow-hidden rounded-lg border border-gray-200">
@@ -17,41 +24,43 @@
           <thead class="bg-mint-light">
             <tr>
               <th class="p-3 text-left font-semibold text-gray-700 whitespace-nowrap sticky top-0 bg-mint-light">#</th>
-              <th class="p-3 text-left font-semibold text-gray-700 whitespace-nowrap sticky top-0 bg-mint-light">Foto</th>
-              <th class="p-3 text-left font-semibold text-gray-700 whitespace-nowrap sticky top-0 bg-mint-light">NIM</th>
               <th class="p-3 text-left font-semibold text-gray-700 whitespace-nowrap sticky top-0 bg-mint-light">Nama</th>
-              <th class="hidden md:table-cell p-3 text-left font-semibold text-gray-700 whitespace-nowrap sticky top-0 bg-mint-light">Email</th>
-              <th class="hidden sm:table-cell p-3 text-left font-semibold text-gray-700 whitespace-nowrap sticky top-0 bg-mint-light">No HP</th>
-              <th class="hidden lg:table-cell p-3 text-left font-semibold text-gray-700 whitespace-nowrap sticky top-0 bg-mint-light">Alamat</th>
-              <th class="p-3 text-left font-semibold text-gray-700 whitespace-nowrap sticky top-0 bg-mint-light">Kelas</th>
+              <th class="p-3 text-left font-semibold text-gray-700 whitespace-nowrap sticky top-0 bg-mint-light">Email</th>
+              <th class="p-3 text-left font-semibold text-gray-700 whitespace-nowrap sticky top-0 bg-mint-light">No. HP</th>
               <th class="p-3 text-center font-semibold text-gray-700 whitespace-nowrap sticky top-0 bg-mint-light">Aksi</th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr class="hover:bg-gray-50">
-              <td class="p-3 text-gray-700">#</td>
-              <td class="p-3">
-                <img src="https://ui-avatars.com/api/?name=Andi+Setiawan&background=A5F3DC&color=000" alt="Andi Setiawan" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full"/>
-              </td>
-              <td class="p-3 text-gray-700">2023001</td>
-              <td class="p-3 text-gray-700">Andi Setiawan</td>
-              <td class="hidden md:table-cell p-3 text-gray-700">andi@example.com</td>
-              <td class="hidden sm:table-cell p-3 text-gray-700">08123456789</td>
-              <td class="hidden lg:table-cell p-3 text-gray-700 max-w-[200px] truncate" title="Jl. Cibeureum No.10, Sukabumi">
-                Jl. Cibeureum No.10, Sukabumi
-              </td>
-              <td class="p-3 text-gray-700">TI-1A</td>
-              <td class="p-3 text-center">
-                <div class="flex justify-center gap-2">
-                  <button class="text-blue-600 hover:text-blue-700 p-1">✏️</button>
-                  <button class="text-red-500 hover:text-red-600 p-1">🗑️</button>
-                </div>
-              </td>
-            </tr>
-            <!-- Tambahkan baris data lainnya di sini untuk testing scroll -->
+            @forelse($users as $index => $user)
+              <tr class="hover:bg-gray-50">
+                <td class="p-3 text-gray-700">{{ $users->firstItem() + $index }}</td>
+                <td class="p-3 text-gray-700">{{ $user->name }}</td>
+                <td class="p-3 text-gray-700">{{ $user->email }}</td>
+                <td class="p-3 text-gray-700">{{ $user->no_hp ?? '-' }}</td>
+                <td class="p-3 text-center">
+                  <div class="flex justify-center gap-2">
+                    <a href="{{ route('admin.detail-pengguna', $user) }}" class="text-gray-600 hover:text-gray-800">🔍</a>
+                    <a href="{{ route('admin.ubah-pengguna.edit', $user) }}" class="text-blue-600 hover:text-blue-700">✏️</a>
+                    <form action="{{ route('admin.hapus-pengguna', $user) }}" method="POST" class="inline-block" onsubmit="return confirm('Hapus mahasiswa ini?');">
+                      @csrf
+                      @method('DELETE')
+                      <button class="text-red-500 hover:text-red-600">🗑️</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            @empty
+              <tr>
+                <td colspan="5" class="p-3 text-center text-gray-500">Belum ada data mahasiswa.</td>
+              </tr>
+            @endforelse
           </tbody>
         </table>
       </div>
+    </div>
+
+    <div class="mt-4">
+      {{ $users->links() }}
     </div>
   </div>
 @endsection
