@@ -57,6 +57,15 @@ Route::middleware(['auth'])->prefix('admin')->controller(AdminController::class)
     Route::put('/ubah-mata-kuliah/{mataKuliah}', [\App\Http\Controllers\Admin\MataKuliahController::class, 'update'])->name('admin.ubah-mata-kuliah.update');
     Route::delete('/hapus-mata-kuliah/{mataKuliah}', [\App\Http\Controllers\Admin\MataKuliahController::class, 'destroy'])->name('admin.hapus-mata-kuliah');
     Route::get('/detail-mata-kuliah/{mataKuliah}', [\App\Http\Controllers\Admin\MataKuliahController::class, 'show'])->name('admin.detail-mata-kuliah');
+
+    // Admin kampus (custom CRUD routes)
+    Route::get('/tambah-kampus/create', [\App\Http\Controllers\Admin\KampusController::class, 'create'])->name('admin.tambah-kampus.create');
+    Route::post('/tambah-kampus', [\App\Http\Controllers\Admin\KampusController::class, 'store'])->name('admin.tambah-kampus.store');
+
+    Route::get('/ubah-kampus/{kampus}/edit', [\App\Http\Controllers\Admin\KampusController::class, 'edit'])->name('admin.ubah-kampus.edit');
+    Route::put('/ubah-kampus/{kampus}', [\App\Http\Controllers\Admin\KampusController::class, 'update'])->name('admin.ubah-kampus.update');
+    Route::delete('/hapus-kampus/{kampus}', [\App\Http\Controllers\Admin\KampusController::class, 'destroy'])->name('admin.hapus-kampus');
+    Route::get('/detail-kampus/{kampus}', [\App\Http\Controllers\Admin\KampusController::class, 'show'])->name('admin.detail-kampus');
 });
 
 // ========== DOSEN ==========

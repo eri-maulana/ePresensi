@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\MataKuliah;
 use App\Models\Kelas;
+use App\Models\Kampus;
 
 class AdminController extends Controller
 {
@@ -40,7 +41,8 @@ class AdminController extends Controller
 
     public function dataKampus()
     {
-        return view('admin.data-kampus');
+        $kampuses = Kampus::orderBy('nama_kampus')->paginate(20);
+        return view('admin.kampus.data-kampus', compact('kampuses'));
     }
 
     public function dataJadwal()
