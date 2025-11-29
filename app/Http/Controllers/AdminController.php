@@ -66,12 +66,47 @@ class AdminController extends Controller
 
     public function profil()
     {
-        return view('admin.profil-admin');
+        $user = auth()->user();
+        return view('admin.profil-admin', compact('user'));
     }
 
     public function edit()
     {
-        return view('admin.edit-admin');
+        $user = auth()->user();
+        return view('admin.edit-admin', compact('user'));
+    }
+
+    public function updateProfil(Request $request)
+    {
+        $user = auth()->user();
+        
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'no_hp' => 'nullable|string|max:20',
+            'alamat' => 'nullable|string|max:500',
+            'password' => 'nullable|string|min:8|confirmed',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Handle photo upload
+        if ($request->hasFile('foto')) {
+            if (!empty($user->foto) && \Illuminate\Support\Facades\Storage::disk('public')->exists($user->foto)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($user->foto);
+            }
+            $validated['foto'] = $request->file('foto')->store('profiles', 'public');
+        }
+
+        // Hash password if provided
+        if (!empty($validated['password'])) {
+            $validated['password'] = \Illuminate\Support\Facades\Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        $user->update($validated);
+
+        return redirect()->route('admin.profil')->with('success', 'Profil berhasil diperbarui.');
     }
 
     public function tambahPengguna()

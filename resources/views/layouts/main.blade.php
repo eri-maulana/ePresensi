@@ -33,6 +33,8 @@
             <main class="md:p-6 md:pl-0">
                 @yield('content')
             </main>
+
+            @include('partials.footer')
         </div>
     </div>
     @stack('scripts')

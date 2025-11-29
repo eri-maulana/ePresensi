@@ -9,27 +9,30 @@
         <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
             <div class="md:flex">
                 <div class="md:flex-shrink-0 p-6 flex justify-center items-center ">
-                    <img class="h-48 w-48 rounded-full object-cover border-4 border-white shadow-lg" src="https://ui-avatars.com/api/?name=Administrator&background=22c55e&color=fff&size=200" alt="Administrator">
+                    @if($user->foto)
+                        <img class="h-48 w-48 rounded-full object-cover border-4 border-white shadow-lg" src="{{ asset('storage/' . $user->foto) }}" alt="{{ $user->name }}">
+                    @else
+                        <img class="h-48 w-48 rounded-full object-cover border-4 border-white shadow-lg" src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=A5F3DC&color=000&size=200" alt="{{ $user->name }}">
+                    @endif
                 </div>
                 <div class="p-6 md:flex-1">
                     <div class="flex justify-between items-start mb-4">
                         <div>
-                            <h2 class="text-2xl font-bold text-gray-900">Administrator</h2>
-                            <p class="text-gray-600">Sistem Administrator</p>
+                            <h2 class="text-2xl font-bold text-gray-900">{{ $user->name }}</h2>
+                            <p class="text-gray-600">{{ ucfirst($user->role) }}</p>
                         </div>
-                        <a href="#" class="inline-flex items-center px-4 py-2 bg-mint text-white rounded-lg hover:bg-mint/90 transition-colors">
-                            <i class="fas fa-edit mr-2"></i>
-                            Edit Profil
+                        <a href="{{ route('admin.edit') }}" class="inline-flex items-center px-4 py-2 bg-mint text-white rounded-lg hover:bg-mint/90 transition-colors">
+                            ✏️ Edit Profil
                         </a>
                     </div>
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <div>
                             <p class="text-sm text-gray-500">Email</p>
-                            <p class="font-medium">admin@kampus.test</p>
+                            <p class="font-medium">{{ $user->email }}</p>
                         </div>
                         <div>
                             <p class="text-sm text-gray-500">No. HP</p>
-                            <p class="font-medium">08123456789</p>
+                            <p class="font-medium">{{ $user->no_hp ?? '-' }}</p>
                         </div>
                     </div>
                 </div>
@@ -44,16 +47,20 @@
                 </div>
                 <div class="p-6 space-y-4">
                     <div>
-                        <p class="text-sm text-gray-500">Username</p>
-                        <p class="font-medium">admin</p>
+                        <p class="text-sm text-gray-500">Nama Lengkap</p>
+                        <p class="font-medium">{{ $user->name }}</p>
                     </div>
                     <div>
                         <p class="text-sm text-gray-500">Role</p>
-                        <p class="font-medium">Administrator</p>
+                        <p class="font-medium">{{ ucfirst($user->role) }}</p>
                     </div>
                     <div>
                         <p class="text-sm text-gray-500">Alamat</p>
-                        <p class="font-medium">Jl. Administrasi No. 1, Kota Kampus</p>
+                        <p class="font-medium">{{ $user->alamat ?? '-' }}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Kode Identitas</p>
+                        <p class="font-medium">{{ $user->kode_identitas ?? '-' }}</p>
                     </div>
                 </div>
             </div>

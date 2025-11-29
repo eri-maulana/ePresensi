@@ -25,6 +25,7 @@ Route::middleware(['auth'])->prefix('admin')->controller(AdminController::class)
     Route::get('/rekap-presensi', 'rekapPresensi')->name('admin.rekap-presensi');
     Route::get('/profil', 'profil')->name('admin.profil');
     Route::get('/edit', 'edit')->name('admin.edit');
+    Route::put('/profil', 'updateProfil')->name('admin.update-profil');
     Route::get('/tambah-pengguna', 'tambahPengguna')->name('admin.tambah-pengguna');
     Route::get('/tambah-mata-kuliah', 'tambahMataKuliah')->name('admin.tambah-mata-kuliah');
     Route::get('/tambah-mahasiswa', 'tambahMahasiswa')->name('admin.tambah-mahasiswa');
